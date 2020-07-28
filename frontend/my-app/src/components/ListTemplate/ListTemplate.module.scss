@@ -1,0 +1,17 @@
+@import "~open-color/open-color";
+
+.main {
+  width: 50%;
+  text-align: center;
+  border-radius: 5px;
+  top: 100px;
+  position: relative;
+  margin: 0 auto;
+  box-shadow: 1px 1px 35px -20px;
+  background: white;
+  padding-bottom: 10px;
+}
+.title {
+  font-size: 2rem;
+  border-bottom: 1px solid black;
+}
