@@ -1,19 +1,14 @@
 import React from "react";
-import ListTemplate from "./components/ListTemplate/ListTemplate";
-import List from "./components/List/List";
-import Form from "./components/Form/Form";
-import { ListProvider } from "./ListContext";
-import Foot from "./components/Foot/Foot";
+import { Route } from "react-router-dom";
+import TodoList from "./pages/TodoList";
+import Login from "./pages/Login";
 
 function App() {
   return (
-    <ListProvider>
-      <ListTemplate>
-        <Form />
-        <List />
-        <Foot />
-      </ListTemplate>
-    </ListProvider>
+    <div>
+      <Route path="/" exact component={Login} />
+      <Route path="/list" component={TodoList} />
+    </div>
   );
 }
 
