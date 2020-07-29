@@ -4,7 +4,11 @@ input {
   font-size: 1.5rem;
   margin-top: 10px;
   margin-bottom: 10px;
+  &:focus {
+    outline: none;
+  }
 }
+
 .main {
   border-bottom: 1px solid black;
 }

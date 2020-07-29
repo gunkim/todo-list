@@ -1,10 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Form.module.scss";
+import { useListDispatch, useListNextId } from "../../ListContext";
 
 function Form() {
+  const dispatch = useListDispatch();
+  const nextId = useListNextId();
+
+  const [value, setValue] = useState("");
+  const onChange = (e) => {
+    setValue(e.target.value);
+  };
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    dispatch({
+      type: "CREATE_TODO",
+      id: nextId.current,
+      text: value,
+    });
+    setValue("");
+    nextId.current += 1;
+  };
+
   return (
     <div className={styles.main}>
-      <input type="text" />
+      <form onSubmit={onSubmit}>
+        <input type="text" value={value} onChange={onChange} />
+      </form>
     </div>
   );
 }
