@@ -13,6 +13,10 @@ function Form() {
   const onSubmit = (e) => {
     e.preventDefault();
 
+    if (value.trim() === "") {
+      return;
+    }
+
     dispatch({
       type: "CREATE_TODO",
       id: nextId.current,
