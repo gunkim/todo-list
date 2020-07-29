@@ -3,12 +3,12 @@ import React, { createContext, useReducer, useContext, useRef } from "react";
 const initialList = [
   {
     id: 1,
-    check: false,
+    check: true,
     text: "리액트 공부하기",
   },
   {
     id: 2,
-    check: true,
+    check: false,
     text: "리액트 안녕",
   },
   {
@@ -31,6 +31,8 @@ function listReducer(state, action) {
       );
     case "CREATE_TODO":
       return [...state, { id: action.id, check: false, text: action.text }];
+    case "DELETE_TODO":
+      return state.filter((todo) => todo.id !== action.id);
     default:
       return state;
   }

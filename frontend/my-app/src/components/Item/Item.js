@@ -12,6 +12,12 @@ function Item({ id, text, check }) {
       id: id,
     });
   };
+  const onDelete = () => {
+    dispatch({
+      type: "DELETE_TODO",
+      id: id,
+    });
+  };
   return (
     <div className="item">
       {!check ? (
@@ -20,7 +26,9 @@ function Item({ id, text, check }) {
         <GrCheckboxSelected onClick={onClick} />
       )}
       <span>{text}</span>
-      <AiFillDelete className="floatRight">삭제</AiFillDelete>
+      <AiFillDelete className="floatRight" onClick={onDelete}>
+        삭제
+      </AiFillDelete>
     </div>
   );
 }
