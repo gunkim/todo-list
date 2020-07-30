@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./Form.module.scss";
+import styles from "./InputForm.module.scss";
 import { useListDispatch, useListNextId } from "../../ListContext";
 
 function Form() {

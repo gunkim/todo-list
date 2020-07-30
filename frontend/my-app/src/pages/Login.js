@@ -1,12 +1,14 @@
 import React from "react";
 import ListTemplate from "../components/Template/Template";
 import { ListProvider } from "../ListContext";
+import LoginForm from "../components/Form/LoginForm";
 
 function Login() {
   return (
     <ListProvider>
       <ListTemplate>
-        <div>로그인 페이지</div>
+        <h1>로그인</h1>
+        <LoginForm />
       </ListTemplate>
     </ListProvider>
   );
