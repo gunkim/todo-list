@@ -2,13 +2,13 @@ import React from "react";
 import { GrCheckbox, GrCheckboxSelected } from "react-icons/gr";
 import { AiFillDelete } from "react-icons/ai";
 import "./Item.scss";
-import { useListDispatch } from "../../ListContext";
+import { useDispatch } from "react-redux";
 
 function Item({ id, text, check }) {
-  const dispatch = useListDispatch();
+  const dispatch = useDispatch();
   const onClick = () => {
     dispatch({
-      type: "CHANGE_CHECK",
+      type: "SET_REVERSE_CHECK_TODO",
       id: id,
     });
   };

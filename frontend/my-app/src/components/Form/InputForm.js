@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import styles from "./InputForm.module.scss";
-import { useListDispatch, useListNextId } from "../../ListContext";
+import { useDispatch } from "react-redux";
 
 function Form() {
-  const dispatch = useListDispatch();
-  const nextId = useListNextId();
+  const dispatch = useDispatch();
 
   const [value, setValue] = useState("");
   const onChange = (e) => {
@@ -19,11 +18,9 @@ function Form() {
 
     dispatch({
       type: "CREATE_TODO",
-      id: nextId.current,
       text: value,
     });
     setValue("");
-    nextId.current += 1;
   };
 
   return (

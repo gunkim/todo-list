@@ -1,9 +1,9 @@
 import React from "react";
 import Item from "../Item/Item";
-import { useListState } from "../../ListContext";
+import { useSelector } from "react-redux";
 
 function List() {
-  const todoList = useListState();
+  const todoList = useSelector((state) => state.todos);
   return (
     <div>
       {todoList.map((todo) => (
