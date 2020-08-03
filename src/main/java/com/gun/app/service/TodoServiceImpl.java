@@ -35,7 +35,7 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public void createTodo(TodoRequestDTO dto) {
+    public void createTodo(TodoRequestDTO dto) throws IllegalArgumentException{
         todoRepository.save(dto.toEntity());
     }
 

@@ -1,9 +1,14 @@
 package com.gun.app.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.gun.app.domain.Todo;
 import com.gun.app.domain.TodoRepository;
+import com.gun.app.dto.TodoRequestDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,9 +26,12 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -41,6 +49,8 @@ public class TodoControllerTests {
 
     @Autowired
     private TodoRepository todoRepository;
+
+    private static final String API_URI = "/api/todo";
 
     @Before
     public void setUp(){
@@ -61,8 +71,57 @@ public class TodoControllerTests {
 
     @Test
     public void getTodoListTest() throws Exception {
-        mockMvc.perform(get("/api/todo/list").contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(get(API_URI+"/list").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
+    }
+    @Test
+    public void setReverseCheckTodoTest() throws Exception {
+        long id = todoRepository.findAll().get(0).getId();
+
+        String uri = API_URI+"/"+id;
+        mockMvc.perform(put(uri).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo((print()));
+
+        Optional<Todo> optTodo = todoRepository.findById(id);
+        if(optTodo.isPresent()){
+            Todo todo = optTodo.get();
+            assertTrue(todo.isCheck());
+        }else{
+            fail("해당 TODO가 없습니다.");
+        }
+    }
+    @Test
+    public void deleteTodoTest() throws Exception {
+        long id = todoRepository.findAll().get(0).getId();
+
+        String uri = API_URI+"/"+id;
+        mockMvc.perform(delete(uri).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+
+        Optional<Todo> optTodo = todoRepository.findById(id);
+
+        if(optTodo.isPresent()){
+           fail("해당 TODO 삭제에 실패하였습니다.");
+        }
+    }
+    @Test
+    public void createTodoTest() throws Exception {
+        String insertText = "입력 테스트";
+        mockMvc.perform(post(API_URI).contentType(MediaType.APPLICATION_JSON)
+                .content("{\"text\":\"입력 테스트\",\"isCheck\":\"true\"}")
+        ).andExpect(status().isOk()).andDo(print());
+
+        List<Todo> todoAllList = todoRepository.findAll();
+        todoAllList.stream().forEach(todo -> {
+            log.info("todo : "+todo.toString());
+        });
+        Todo todo = todoAllList.get(todoAllList.size() - 1);
+
+        assertEquals(insertText, todo.getText());
+        assertTrue(todo.isCheck());
+
     }
 }
