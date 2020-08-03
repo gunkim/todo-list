@@ -23,10 +23,10 @@ public interface TodoService {
     /**
      * 할 일 체크 목록 반전.
      */
-    void setReverseCheckTodo(long id);
+    void setReverseCheckTodo(long id) throws IllegalArgumentException;
 
     /**
      * 할 일 삭제
      */
-    void deleteTodo(long id);
+    void deleteTodo(long id) throws IllegalArgumentException;
 }
