@@ -1,31 +1,20 @@
 package com.gun.app.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.gun.app.domain.Todo;
 import com.gun.app.domain.TodoRepository;
-import com.gun.app.dto.TodoRequestDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -39,9 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TodoControllerTests {
-    @Autowired
-    private TodoController todoController;
-
     private MockMvc mockMvc;
 
     @Autowired
@@ -111,7 +97,7 @@ public class TodoControllerTests {
     public void createTodoTest() throws Exception {
         String insertText = "입력 테스트";
         mockMvc.perform(post(API_URI).contentType(MediaType.APPLICATION_JSON)
-                .content("{\"text\":\"입력 테스트\",\"isCheck\":\"true\"}")
+                .content("{\"text\":\"입력 테스트\"}")
         ).andExpect(status().isOk()).andDo(print());
 
         List<Todo> todoAllList = todoRepository.findAll();
@@ -121,7 +107,5 @@ public class TodoControllerTests {
         Todo todo = todoAllList.get(todoAllList.size() - 1);
 
         assertEquals(insertText, todo.getText());
-        assertTrue(todo.isCheck());
-
     }
 }
