@@ -3,6 +3,7 @@ import { GrCheckbox, GrCheckboxSelected } from "react-icons/gr";
 import { AiFillDelete } from "react-icons/ai";
 import "./Item.scss";
 import { useDispatch } from "react-redux";
+import { deleteTodo } from "../../modules/todos";
 
 function Item({ id, text, check }) {
   const dispatch = useDispatch();
@@ -13,10 +14,8 @@ function Item({ id, text, check }) {
     });
   };
   const onDelete = () => {
-    dispatch({
-      type: "DELETE_TODO",
-      id: id,
-    });
+    console.log(id);
+    dispatch(deleteTodo(id));
   };
   return (
     <div className="item">

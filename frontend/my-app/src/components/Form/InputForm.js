@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import styles from "./InputForm.module.scss";
-import { useDispatch } from "react-redux";
 
-function Form() {
-  const dispatch = useDispatch();
-
+const Form = React.memo(() => {
   const [value, setValue] = useState("");
   const onChange = (e) => {
     setValue(e.target.value);
@@ -16,20 +13,21 @@ function Form() {
       return;
     }
 
-    dispatch({
-      type: "CREATE_TODO",
-      text: value,
-    });
     setValue("");
   };
 
   return (
     <div className={styles.main}>
       <form onSubmit={onSubmit}>
-        <input type="text" value={value} onChange={onChange} />
+        <input
+          type="text"
+          value={value}
+          onChange={onChange}
+          placeholder="할 일을 입력하세요."
+        />
       </form>
     </div>
   );
-}
+});
 
 export default Form;
