@@ -26,7 +26,7 @@ function LoginForm() {
       <br />
       <input
         name="password"
-        type="text"
+        type="password"
         placeholder="비밀번호를 입력하세요"
         value={login.password}
         onChange={onChange}
