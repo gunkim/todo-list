@@ -5,6 +5,8 @@ import com.gun.app.dto.TodoResponseDTO;
 import com.gun.app.service.TodoService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,12 +25,19 @@ import java.util.List;
 public class TodoController {
     private final TodoService todoService;
 
-//    @ApiOperation("할 일 목록 조회")
+    @ApiOperation("할 일 목록 조회")
     @GetMapping("/list")
     public ResponseEntity<List<TodoResponseDTO>> getTodoList() throws IllegalArgumentException{
         return new ResponseEntity<>(todoService.getTodoList(), HttpStatus.OK);
     }
-//    @ApiOperation("할 일 등록")
+
+    /**
+     * 할 일 등록
+     * @author gunkim
+     * @param dto
+     * @return resultMsg
+     */
+    @ApiOperation("할 일 등록")
     @ApiImplicitParams({
             @ApiImplicitParam(name="text", value="내용", dataType = "string"),
             @ApiImplicitParam(name="isCheck", value="체크여부", dataType = "boolean")
@@ -42,7 +51,7 @@ public class TodoController {
         }
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
-//    @ApiOperation("할 일 삭제")
+    @ApiOperation("할 일 삭제")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTodo(@PathVariable long id){
         try{

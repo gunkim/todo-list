@@ -10,6 +10,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.*;
 
 
+/**
+ * TodoRepository 테스트
+ * @author gunkim
+ */
 @DataJpaTest
 @RunWith(SpringRunner.class)
 public class TodoRepositoryTests {

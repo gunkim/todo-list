@@ -15,6 +15,10 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 
+/**
+ * TodoServicer 테스트
+ * @author gunkim
+ */
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
