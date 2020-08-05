@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import styles from "./InputForm.module.scss";
+import { createTodo } from "../../modules/todos";
+import { useDispatch } from "react-redux";
 
 const Form = React.memo(() => {
   const [value, setValue] = useState("");
+  const dispatch = useDispatch();
   const onChange = (e) => {
     setValue(e.target.value);
   };
@@ -12,7 +15,7 @@ const Form = React.memo(() => {
     if (value.trim() === "") {
       return;
     }
-
+    dispatch(createTodo(value));
     setValue("");
   };
 

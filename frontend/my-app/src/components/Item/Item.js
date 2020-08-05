@@ -4,17 +4,14 @@ import { AiFillDelete } from "react-icons/ai";
 import "./Item.scss";
 import { useDispatch } from "react-redux";
 import { deleteTodo } from "../../modules/todos";
+import { setReverseCheckTodo } from "../../modules/todos";
 
 function Item({ id, text, check }) {
   const dispatch = useDispatch();
   const onClick = () => {
-    dispatch({
-      type: "SET_REVERSE_CHECK_TODO",
-      id: id,
-    });
+    dispatch(setReverseCheckTodo(id));
   };
   const onDelete = () => {
-    console.log(id);
     dispatch(deleteTodo(id));
   };
   return (
