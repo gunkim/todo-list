@@ -27,7 +27,6 @@ public class JwtAuthProvider implements AuthenticationProvider {
         List<GrantedAuthority> authorities = roles.stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
-        log.info(authorities.toString());
         return new JwtAuthToken(subject, authorities);
     }
 
