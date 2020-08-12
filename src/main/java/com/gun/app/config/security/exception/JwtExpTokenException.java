@@ -1,6 +1,6 @@
 package com.gun.app.config.security.exception;
 
-import javax.security.sasl.AuthenticationException;
+import org.springframework.security.core.AuthenticationException;
 
 public class JwtExpTokenException extends AuthenticationException {
     public JwtExpTokenException(String msg) {

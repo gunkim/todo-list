@@ -2,10 +2,7 @@ package com.gun.app.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * 회원 관리 테이블
@@ -23,12 +20,16 @@ public class Member extends BaseTimeEntity{
 
     private String password;
 
-    private String username;
+    private String name;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Builder
-    public Member(String memberId, String password, String username){
+    public Member(String memberId, String password, String name, Role role){
         this.memberId = memberId;
         this.password = password;
-        this.username = username;
+        this.name = name;
+        this.role = role;
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,12 @@ public class AsyncLoginProvider implements AuthenticationProvider {
         String username = (String) auth.getPrincipal();
         String password = (String) auth.getCredentials();
 
-        MemberResponseDto dto = memberService.getMember(username);
+        MemberResponseDto dto = null;
+        try{
+            dto = memberService.getMember(username);
+        }catch(UserPrincipalNotFoundException e){
+            throw new BadCredentialsException("해당 회원 정보 조회 실패");
+        }
 
         if(!passwordEncoder.matches(password, dto.getPassword())){
             throw new BadCredentialsException("비밀번호가 불일치합니다.");

@@ -4,3 +4,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+jwt:
+  token:
+    issuer: "gunkim"
+    expTime: 1800000
+    secretKey: "This is My Secret Key"
