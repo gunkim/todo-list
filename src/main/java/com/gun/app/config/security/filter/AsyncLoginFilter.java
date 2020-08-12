@@ -31,10 +31,10 @@ public class AsyncLoginFilter extends AbstractAuthenticationProcessingFilter {
     }
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-//        if(this.isNotPostMethod(request) || this.isNotAsync(request)){
-//            log.debug("비동기 로그인 처리 지원이 되지 않는 메소드 요청입니다. :: "+request.getMethod());
-//            throw new AuthMethodNotSupportedException("Authentication method not supported");
-//        }
+        if(this.isNotPostMethod(request) || this.isNotAsync(request)){
+            log.debug("비동기 로그인 처리 지원이 되지 않는 메소드 요청입니다. :: "+request.getMethod());
+            throw new AuthMethodNotSupportedException("Authentication method not supported");
+        }
         LoginDto loginDto = objectMapper.readValue(request.getReader(), LoginDto.class);
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
