@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 
 function LoginForm() {
   const [login, setLogin] = useState({
@@ -12,10 +12,9 @@ function LoginForm() {
       ...login,
       [name]: value,
     });
-    console.log(login);
   };
   return (
-    <form>
+    <Fragment>
       <input
         name="userId"
         type="text"
@@ -31,7 +30,7 @@ function LoginForm() {
         value={login.password}
         onChange={onChange}
       />
-    </form>
+    </Fragment>
   );
 }
 

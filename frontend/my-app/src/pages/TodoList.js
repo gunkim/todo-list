@@ -7,10 +7,8 @@ import Foot from "../components/Foot/Foot";
 function TodoList() {
   return (
     <Fragment>
-      <ListTemplate>
-        <InputForm />
+      <ListTemplate form={<InputForm />} foot={<Foot />}>
         <List />
-        <Foot />
       </ListTemplate>
     </Fragment>
   );
