@@ -22,9 +22,7 @@ function Item({ id, text, check }) {
         <GrCheckboxSelected onClick={onClick} />
       )}
       <span>{text}</span>
-      <AiFillDelete className="floatRight" onClick={onDelete}>
-        삭제
-      </AiFillDelete>
+      <AiFillDelete className="floatRight" onClick={onDelete} />
     </div>
   );
 }

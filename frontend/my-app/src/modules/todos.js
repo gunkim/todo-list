@@ -16,46 +16,49 @@ const SET_REVERSE_CHECK_TODO = "SET_REVERSE_CHECK_TODO";
 const SET_REVERSE_CHECK_TODO_SUCCESS = `${SET_REVERSE_CHECK_TODO}_SUCCESS`;
 const SET_REVERSE_CHECK_TODO_ERROR = `${SET_REVERSE_CHECK_TODO}_ERROR`;
 
-export const createTodo = (text) => async (dispatch) => {
+export const createTodo = (text) => async (dispatch, getState) => {
   dispatch({ type: CREATE_TODO });
 
+  const token = getState().users.jwtToken;
   try {
-    await todosAPI.createTodo(text);
-    const response = await todosAPI.getTodos();
+    await todosAPI.createTodo(token, text);
+    const response = await todosAPI.getTodos(token);
     dispatch({ type: CREATE_TODO_SUCCESS, data: response });
   } catch (e) {
     dispatch({ type: CREATE_TODO_ERROR });
   }
 };
 
-export const deleteTodo = (id) => async (dispatch) => {
+export const deleteTodo = (id) => async (dispatch, getState) => {
   dispatch({ type: DELETE_TODO });
 
+  const token = getState().users.jwtToken;
   try {
-    await todosAPI.deleteTodo(id);
-    const response = await todosAPI.getTodos();
+    await todosAPI.deleteTodo(token, id);
+    const response = await todosAPI.getTodos(token);
     dispatch({ type: DELETE_TODO_SUCCESS, data: response });
   } catch (e) {
     dispatch({ type: DELETE_TODO_ERROR });
   }
 };
 
-export const getTodos = () => async (dispatch) => {
+export const getTodos = () => async (dispatch, getState) => {
   dispatch({ type: GET_TODOS });
 
   try {
-    const response = await todosAPI.getTodos();
+    const response = await todosAPI.getTodos(getState().users.jwtToken);
     dispatch({ type: GET_TODOS_SUCCESS, data: response });
   } catch (e) {
     dispatch({ type: GET_TODOS_ERROR });
   }
 };
-export const setReverseCheckTodo = (id) => async (dispatch) => {
+export const setReverseCheckTodo = (id) => async (dispatch, getState) => {
   dispatch({ type: SET_REVERSE_CHECK_TODO });
 
+  const token = getState().users.jwtToken;
   try {
-    await todosAPI.setReverseCheckTodo(id);
-    const response = await todosAPI.getTodos();
+    await todosAPI.setReverseCheckTodo(token, id);
+    const response = await todosAPI.getTodos(token);
     dispatch({ type: SET_REVERSE_CHECK_TODO_SUCCESS, data: response });
   } catch (e) {
     dispatch({ type: SET_REVERSE_CHECK_TODO_ERROR });

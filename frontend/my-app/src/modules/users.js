@@ -4,12 +4,14 @@ const LOGIN_PROCESS = "LOGIN_PROCESS";
 const LOGIN_PROCESS_SUCCESS = `${LOGIN_PROCESS}_SUCCESS`;
 const LOGIN_PROCESS_ERROR = `${LOGIN_PROCESS}_ERROR`;
 
-export const loginPro = (id, pw) => async (dispatch) => {
+export const loginPro = (id, pw) => async (dispatch, getState, { history }) => {
   dispatch({ type: LOGIN_PROCESS });
   try {
     const response = await usersAPI.loginPro(id, pw);
 
     dispatch({ type: LOGIN_PROCESS_SUCCESS, payload: response.data });
+
+    history.push("/list");
   } catch (e) {
     dispatch({ type: LOGIN_PROCESS_ERROR });
   }

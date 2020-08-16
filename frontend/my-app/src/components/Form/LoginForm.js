@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { loginPro } from "../../modules/users";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import "./LoginForm.scss";
 
 function LoginForm() {
   const dispatch = useDispatch();
@@ -8,6 +10,9 @@ function LoginForm() {
     userId: "",
     password: "",
   });
+  const { loading, error } = useSelector((state) => state.users);
+
+  const pwdInputRef = useRef(null);
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -23,6 +28,11 @@ function LoginForm() {
       dispatch(loginPro(id, pw));
     }
   };
+  useEffect(() => {
+    if (error) {
+      pwdInputRef.current.focus();
+    }
+  }, [error]);
   return (
     <div>
       <div>
@@ -42,8 +52,15 @@ function LoginForm() {
           value={login.password}
           onChange={onChange}
           onKeyPress={onKeyPress}
+          ref={pwdInputRef}
         />
       </div>
+      {loading ? <CircularProgress /> : ""}
+      {error ? (
+        <div className="msg">아이디 및 비밀번호를 다시 한번 확인해주세요.</div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

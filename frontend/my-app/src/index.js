@@ -4,15 +4,28 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "./index.css";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
-import store from "./store";
+import { Router } from "react-router";
+import rootReducer from "./modules";
+import { composeWithDevTools } from "redux-devtools-extension";
+import { createStore, applyMiddleware } from "redux";
+import ReduxThunk from "redux-thunk";
+import { createBrowserHistory } from "history";
+
+const customHistory = createBrowserHistory();
+
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(
+    applyMiddleware(ReduxThunk.withExtraArgument({ history: customHistory }))
+  )
+);
 
 ReactDOM.render(
-  <Provider store={store}>
-    <BrowserRouter>
+  <Router history={customHistory}>
+    <Provider store={store}>
       <App />
-    </BrowserRouter>
-  </Provider>,
+    </Provider>
+  </Router>,
   document.getElementById("root")
 );
 
