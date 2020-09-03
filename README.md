@@ -1,5 +1,11 @@
 # 리액트로 만들어 보는 할 일 리스트
 
+## 개발 환경
+> Java : 1.8  
+> Gradle : 6.6  
+> React : 16.13.1  
+> Spring Boot : 2.2.4.RELEASE
+
 ## 구현 기능
 1. 할 일 작성
 2. 할 일 목록 확인
@@ -8,7 +14,7 @@
 
 ## 돌려보는 방법
 ### 서버 실행
-> https://github.com/gunkim0318/todo-list.git  
+> git clone https://github.com/gunkim0318/todo-list.git  
 > cd todo-list  
 > gradle build  
 > cd build\libs  
