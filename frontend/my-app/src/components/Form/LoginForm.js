@@ -2,7 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginPro } from "../../modules/users";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import "./LoginForm.scss";
+import Input from "../Input/DefaultInput";
+import styled from "styled-components";
+
+const FailMsg = styled.div`
+  color: red;
+`;
 
 function LoginForm() {
   const dispatch = useDispatch();
@@ -36,7 +41,7 @@ function LoginForm() {
   return (
     <div>
       <div>
-        <input
+        <Input
           name="userId"
           type="text"
           placeholder="아이디를 입력하세요"
@@ -45,7 +50,7 @@ function LoginForm() {
         />
       </div>
       <div>
-        <input
+        <Input
           name="password"
           type="password"
           placeholder="비밀번호를 입력하세요"
@@ -57,7 +62,7 @@ function LoginForm() {
       </div>
       {loading ? <CircularProgress /> : ""}
       {error ? (
-        <div className="msg">아이디 및 비밀번호를 다시 한번 확인해주세요.</div>
+        <FailMsg>아이디 및 비밀번호를 다시 한번 확인해주세요.</FailMsg>
       ) : (
         ""
       )}

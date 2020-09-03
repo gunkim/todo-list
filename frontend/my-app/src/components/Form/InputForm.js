@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import styles from "./InputForm.module.scss";
 import { createTodo } from "../../modules/todos";
 import { useDispatch } from "react-redux";
+import Input from "../Input/DefaultInput";
 
 const Form = React.memo(() => {
   const [value, setValue] = useState("");
@@ -20,16 +20,14 @@ const Form = React.memo(() => {
   };
 
   return (
-    <div className={styles.main}>
-      <form onSubmit={onSubmit}>
-        <input
-          type="text"
-          value={value}
-          onChange={onChange}
-          placeholder="할 일을 입력하세요."
-        />
-      </form>
-    </div>
+    <form onSubmit={onSubmit}>
+      <Input
+        type="text"
+        value={value}
+        onChange={onChange}
+        placeholder="할 일을 입력하세요."
+      />
+    </form>
   );
 });
 

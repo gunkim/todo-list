@@ -8,10 +8,8 @@ export const loginPro = (id, pw) => async (dispatch, getState, { history }) => {
   dispatch({ type: LOGIN_PROCESS });
   try {
     const response = await usersAPI.loginPro(id, pw);
-
-    dispatch({ type: LOGIN_PROCESS_SUCCESS, payload: response.data });
-
     localStorage.setItem("token", response.data);
+    dispatch({ type: LOGIN_PROCESS_SUCCESS });
 
     history.push("/list");
   } catch (e) {
@@ -22,7 +20,6 @@ export const loginPro = (id, pw) => async (dispatch, getState, { history }) => {
 const initialState = {
   loading: false,
   error: null,
-  jwtToken: null,
 };
 
 export default function users(state = initialState, action) {
@@ -38,7 +35,6 @@ export default function users(state = initialState, action) {
         ...state,
         loading: false,
         error: false,
-        jwtToken: action.payload,
       };
     case LOGIN_PROCESS_ERROR:
       return {
