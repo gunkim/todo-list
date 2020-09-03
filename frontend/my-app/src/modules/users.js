@@ -11,6 +11,8 @@ export const loginPro = (id, pw) => async (dispatch, getState, { history }) => {
 
     dispatch({ type: LOGIN_PROCESS_SUCCESS, payload: response.data });
 
+    localStorage.setItem("token", response.data);
+
     history.push("/list");
   } catch (e) {
     dispatch({ type: LOGIN_PROCESS_ERROR });
