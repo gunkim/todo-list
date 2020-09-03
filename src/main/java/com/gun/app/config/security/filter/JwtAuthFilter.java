@@ -23,7 +23,7 @@ public class JwtAuthFilter extends AbstractAuthenticationProcessingFilter {
     private final JwtUtil jwtUtil;
     private final AuthenticationFailureHandler failureHandler;
     public JwtAuthFilter(JwtUtil jwtUtil, AuthenticationFailureHandler failureHandler) {
-        super("/**");
+        super("/api/todo/**");
         this.jwtUtil = jwtUtil;
         this.failureHandler = failureHandler;
     }

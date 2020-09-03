@@ -45,7 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").hasRole(Role.USER.name())
+                .antMatchers("/api/todo/**").hasRole(Role.USER.name())
+                .antMatchers("/", "/list").permitAll()
                 .and()
                 .addFilterBefore(getAsyncLoginFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(getJwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);

@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
@@ -14,7 +15,7 @@ import static org.junit.Assert.*;
  * TodoRepository 테스트
  * @author gunkim
  */
-@DataJpaTest
+@SpringBootTest
 @RunWith(SpringRunner.class)
 public class TodoRepositoryTests {
     @Autowired
