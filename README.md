@@ -8,7 +8,7 @@
 
 ## 돌려보는 방법
 ### 서버 실행
-> https://github.com/gunkim0318/todo-list.git  
+> git clone https://github.com/gunkim0318/todo-list.git  
 > cd todo-list  
 > gradle build  
 > cd build\libs  
