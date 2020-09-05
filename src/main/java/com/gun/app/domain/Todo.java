@@ -2,10 +2,7 @@ package com.gun.app.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * 할 일 목록 테이블
@@ -19,15 +16,22 @@ public class Todo extends BaseTimeEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false)
     private String text;
 
+    @Column(nullable = false)
     private boolean isCheck;
 
+    @ManyToOne
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
+
     @Builder
-    public Todo(long id, String text, boolean isCheck){
+    public Todo(long id, String text, boolean isCheck, Member member){
         this.id = id;
         this.text = text;
         this.isCheck = isCheck;
+        this.member = member;
     }
 
     /**
