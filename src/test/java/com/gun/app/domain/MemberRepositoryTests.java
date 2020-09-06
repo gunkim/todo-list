@@ -6,9 +6,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * MemberRepository 테스트
@@ -20,6 +22,9 @@ public class MemberRepositoryTests {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Before
     public void before(){
         memberRepository.deleteAll();
@@ -30,12 +35,12 @@ public class MemberRepositoryTests {
         memberRepository.save(
                 Member.builder()
                         .memberId("gunkim")
-                        .password("test")
+                        .password(passwordEncoder.encode("test"))
                         .build()
         );
 
         Member member = memberRepository.findAll().get(0);
         assertEquals(member.getMemberId(), "gunkim");
-        assertEquals(member.getPassword(), "test");
+        assertTrue(passwordEncoder.matches("test", member.getPassword()));
     }
 }
