@@ -29,13 +29,13 @@ public class MemberRepositoryTests {
     public void insertTest(){
         memberRepository.save(
                 Member.builder()
-                        .memberId("test1234")
-                        .password("test1234")
+                        .memberId("gunkim")
+                        .password("test")
                         .build()
         );
 
         Member member = memberRepository.findAll().get(0);
-        assertEquals(member.getMemberId(), "test1234");
-        assertEquals(member.getPassword(), "test1234");
+        assertEquals(member.getMemberId(), "gunkim");
+        assertEquals(member.getPassword(), "test");
     }
 }

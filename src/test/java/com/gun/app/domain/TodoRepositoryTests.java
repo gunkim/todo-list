@@ -1,5 +1,6 @@
 package com.gun.app.domain;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,19 +16,33 @@ import static org.junit.Assert.*;
  * TodoRepository 테스트
  * @author gunkim
  */
+@Slf4j
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class TodoRepositoryTests {
     @Autowired
     private TodoRepository todoRepository;
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Before
     public void before(){
         todoRepository.deleteAll();
+        memberRepository.deleteAll();
+
+        Member member = Member.builder()
+                .memberId("gunkim")
+                .password("test")
+                .role(Role.USER)
+                .name("gem")
+                .build();
+        memberRepository.save(member);
 
         Todo todo = Todo.builder()
-                .text("입력 테스트").isCheck(true).build();
-
+                .text("입력 테스트")
+                .isCheck(true)
+                .member(member)
+                .build();
         todoRepository.save(todo);
     }
     @Test

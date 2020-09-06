@@ -1,7 +1,6 @@
 package com.gun.app.service;
 
-import com.gun.app.domain.Todo;
-import com.gun.app.domain.TodoRepository;
+import com.gun.app.domain.*;
 import com.gun.app.dto.TodoRequestDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -28,43 +27,56 @@ public class TodoServiceTests {
 
     @Autowired
     private TodoRepository todoRepository;
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Before
     public void before(){
         todoRepository.deleteAll();
+        memberRepository.deleteAll();
+
+        Member member = Member.builder()
+                .memberId("gunkim")
+                .password("test")
+                .role(Role.USER)
+                .name("gem")
+                .build();
+        memberRepository.save(member);
 
         todoRepository.save(
                 Todo.builder()
                         .text("할 일 입력 테스트")
                         .isCheck(false)
+                        .member(member)
                         .build()
         );
     }
     @Test
     public void setReverseCheckTodoTest(){
         long id = todoRepository.findAll().get(0).getId();
-        todoService.setReverseCheckTodo(id);
+        todoService.setReverseCheckTodo("gunkim", id);
 
         Todo todo = todoRepository.findAll().get(0);
         assertTrue(todo.isCheck());
     }
     @Test
     public void createTodoTest(){
-        todoService.createTodo(
+        todoRepository.deleteAll();
+        todoService.createTodo("gunkim",
                 TodoRequestDTO
                         .builder()
                         .text("입력 테스트")
                         .isCheck(true)
                         .build()
         );
-        Todo todo = todoRepository.findAll().get(1);
+        Todo todo = todoRepository.findAll().get(0);
         assertEquals(todo.getText(), "입력 테스트");
         assertTrue(todo.isCheck());
     }
     @Test
     public void deleteTodoTest(){
         long id = todoRepository.findAll().get(0).getId();
-        todoService.deleteTodo(id);
+        todoService.deleteTodo("gunkim", id);
 
         Optional<Todo> optTodo = todoRepository.findById(id);
         if(optTodo.isPresent()){
@@ -73,6 +85,6 @@ public class TodoServiceTests {
     }
     @Test
     public void getTodoListTest(){
-        todoService.getTodoList().stream().forEach(todoResponseDTO -> log.info(todoResponseDTO.toString()));
+        todoService.getTodoList("gunkim").stream().forEach(todoResponseDTO -> log.info(todoResponseDTO.toString()));
     }
 }

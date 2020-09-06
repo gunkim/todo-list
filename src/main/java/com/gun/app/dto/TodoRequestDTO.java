@@ -1,5 +1,6 @@
 package com.gun.app.dto;
 
+import com.gun.app.domain.Member;
 import com.gun.app.domain.Todo;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,10 +24,11 @@ public class TodoRequestDTO {
         this.text = text;
         this.isCheck = isCheck;
     }
-    public Todo toEntity(){
+    public Todo toEntity(Member member){
         return Todo.builder()
                 .text(text)
                 .isCheck(isCheck)
+                .member(member)
                 .build();
     }
 }
