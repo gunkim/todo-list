@@ -50,15 +50,15 @@ dependencies {
     implementation group: 'org.springframework.security', name: 'spring-security-test'
 
 }
-//def webappDir = "$projectDir/frontend/my-app"
-//
-//task appNpmInstall(type: NpmTask) {
-//    workingDir = file("${webappDir}")
-//    args = ["run", "build"]
-//}
-//task copyWebApp(type: Copy) {
-//    from 'frontend/my-app/build'
-//    into "build/resources/main/static"
-//}
-//copyWebApp.dependsOn(appNpmInstall)
-//compileJava.dependsOn(copyWebApp)
+def webappDir = "$projectDir/frontend/my-app"
+
+task appNpmInstall(type: NpmTask) {
+    workingDir = file("${webappDir}")
+    args = ["run", "build"]
+}
+task copyWebApp(type: Copy) {
+    from 'frontend/my-app/build'
+    into "build/resources/main/static"
+}
+copyWebApp.dependsOn(appNpmInstall)
+compileJava.dependsOn(copyWebApp)
