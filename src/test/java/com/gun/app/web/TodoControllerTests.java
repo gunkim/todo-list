@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
@@ -17,7 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
 public class TodoControllerTests {
     @LocalServerPort
     private int port;
@@ -54,10 +55,11 @@ public class TodoControllerTests {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private static final String API_URI = "/api/todo";
+    private String baseUrl = "http://localhost:%d/api/todo";
 
     @Before
     public void setUp(){
+        this.baseUrl = String.format(baseUrl, port);
 
         this.mockMvc = MockMvcBuilders
                 .webAppContextSetup(ctx)
@@ -85,7 +87,10 @@ public class TodoControllerTests {
     @Test
     @WithMockUser(roles = "USER",username = "gunkim")
     public void getTodoListTest() throws Exception {
-        mockMvc.perform(get("http://localhost:"+port+API_URI+"/list").contentType(MediaType.APPLICATION_JSON))
+
+        String url = baseUrl+"/list";
+
+        mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -94,8 +99,9 @@ public class TodoControllerTests {
     public void setReverseCheckTodoTest() throws Exception {
         long id = todoRepository.findAll().get(0).getId();
 
-        String uri = "http://localhost:"+port+API_URI+"/"+id;
-        mockMvc.perform(put(uri).contentType(MediaType.APPLICATION_JSON))
+        String url = baseUrl+"/"+id;
+
+        mockMvc.perform(put(url).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo((print()));
 
@@ -112,8 +118,8 @@ public class TodoControllerTests {
     public void deleteTodoTest() throws Exception {
         long id = todoRepository.findAll().get(0).getId();
 
-        String uri = "http://localhost:"+port+API_URI+"/"+id;
-        mockMvc.perform(delete(uri).contentType(MediaType.APPLICATION_JSON))
+        String url = baseUrl+"/"+id;
+        mockMvc.perform(delete(url).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
 
@@ -129,7 +135,8 @@ public class TodoControllerTests {
         TodoRequestDTO dto = TodoRequestDTO.builder()
                 .text("입력 테스트")
                 .build();
-        mockMvc.perform(post("http://localhost:"+port+API_URI)
+
+        mockMvc.perform(post(baseUrl)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(new ObjectMapper().writeValueAsString(dto))
         ).andExpect(status().isOk()).andDo(print());

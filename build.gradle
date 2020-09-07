@@ -47,16 +47,18 @@ dependencies {
     testCompileOnly group: 'org.projectlombok', name: 'lombok'
     annotationProcessor group: 'org.projectlombok', name: 'lombok'
     testAnnotationProcessor group: 'org.projectlombok', name: 'lombok'
-}
-def webappDir = "$projectDir/frontend/my-app"
+    implementation group: 'org.springframework.security', name: 'spring-security-test'
 
-task appNpmInstall(type: NpmTask) {
-    workingDir = file("${webappDir}")
-    args = ["run", "build"]
 }
-task copyWebApp(type: Copy) {
-    from 'frontend/my-app/build'
-    into "build/resources/main/static"
-}
-copyWebApp.dependsOn(appNpmInstall)
-compileJava.dependsOn(copyWebApp)
+//def webappDir = "$projectDir/frontend/my-app"
+//
+//task appNpmInstall(type: NpmTask) {
+//    workingDir = file("${webappDir}")
+//    args = ["run", "build"]
+//}
+//task copyWebApp(type: Copy) {
+//    from 'frontend/my-app/build'
+//    into "build/resources/main/static"
+//}
+//copyWebApp.dependsOn(appNpmInstall)
+//compileJava.dependsOn(copyWebApp)
