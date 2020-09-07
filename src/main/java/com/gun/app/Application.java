@@ -30,6 +30,14 @@ public class Application {
                             .role(Role.USER)
                             .build()
             );
+            memberRepository.save(
+                    Member.builder()
+                            .memberId("test")
+                            .password(passwordEncoder.encode("test"))
+                            .name("gunkim")
+                            .role(Role.USER)
+                            .build()
+            );
         };
     }
 }
