@@ -1,6 +1,7 @@
 package com.gun.app.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gun.app.config.security.model.LoginDto;
 import com.gun.app.domain.*;
 import com.gun.app.dto.TodoRequestDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -24,7 +26,6 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 
 import static org.junit.Assert.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -37,7 +38,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockMvc
 public class TodoControllerTests {
     @LocalServerPort
     private int port;
@@ -57,8 +57,12 @@ public class TodoControllerTests {
 
     private String baseUrl = "http://localhost:%d/api/todo";
 
+    private String jwtToken;
+
     @Before
-    public void setUp(){
+    public void setUp() throws Exception {
+        todoRepository.deleteAll();
+        memberRepository.deleteAll();
         this.baseUrl = String.format(baseUrl, port);
 
         this.mockMvc = MockMvcBuilders
@@ -83,6 +87,13 @@ public class TodoControllerTests {
                             .build()
             );
         });
+        LoginDto dto = new LoginDto("gunkim", "test");
+        MvcResult result = mockMvc.perform(post("http://localhost:"+port+"/api/auth/login")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(new ObjectMapper().writeValueAsString(dto))
+        ).andExpect(status().isOk()).andDo(print()).andReturn();
+
+        this.jwtToken =result.getResponse().getContentAsString();
     }
     @Test
     @WithMockUser(roles = "USER",username = "gunkim")
@@ -90,7 +101,7 @@ public class TodoControllerTests {
 
         String url = baseUrl+"/list";
 
-        mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get(url).header("Authorization", jwtToken).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -101,7 +112,7 @@ public class TodoControllerTests {
 
         String url = baseUrl+"/"+id;
 
-        mockMvc.perform(put(url).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(put(url).header("Authorization", jwtToken).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo((print()));
 
@@ -119,7 +130,7 @@ public class TodoControllerTests {
         long id = todoRepository.findAll().get(0).getId();
 
         String url = baseUrl+"/"+id;
-        mockMvc.perform(delete(url).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(delete(url).header("Authorization", jwtToken).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
 
@@ -136,7 +147,7 @@ public class TodoControllerTests {
                 .text("입력 테스트")
                 .build();
 
-        mockMvc.perform(post(baseUrl)
+        mockMvc.perform(post(baseUrl).header("Authorization", jwtToken)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(new ObjectMapper().writeValueAsString(dto))
         ).andExpect(status().isOk()).andDo(print());
