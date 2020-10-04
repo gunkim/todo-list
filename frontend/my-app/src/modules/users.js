@@ -1,4 +1,5 @@
 import * as usersAPI from "../api/users";
+import { createReducer, createStateUtils } from "../lib/reducerUtils";
 
 const LOGIN_PROCESS = "LOGIN_PROCESS";
 const LOGIN_PROCESS_SUCCESS = `${LOGIN_PROCESS}_SUCCESS`;
@@ -17,30 +18,16 @@ export const loginPro = (id, pw) => async (dispatch, getState, { history }) => {
   }
 };
 
-const initialState = {
-  loading: false,
-  error: null,
-};
+const initialState = createStateUtils.initial();
 
 export default function users(state = initialState, action) {
   switch (action.type) {
     case LOGIN_PROCESS:
-      return {
-        ...state,
-        loading: true,
-        error: false,
-      };
     case LOGIN_PROCESS_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        error: false,
-      };
     case LOGIN_PROCESS_ERROR:
       return {
         ...state,
-        loading: false,
-        error: true,
+        ...createReducer(LOGIN_PROCESS)(state, action),
       };
     default:
       return state;

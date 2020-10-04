@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { createTodo } from "../../modules/todos";
 import { useDispatch } from "react-redux";
 import Input from "../Input/DefaultInput";
 
-const Form = React.memo(() => {
+const Form = memo(() => {
   const [value, setValue] = useState("");
   const dispatch = useDispatch();
   const onChange = (e) => {

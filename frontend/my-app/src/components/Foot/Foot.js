@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 
@@ -10,13 +10,14 @@ const NumMsg = styled.span`
   color: red;
 `;
 
-function Foot() {
+const Foot = memo(() => {
   const todoList = useSelector((state) => state.todos.data);
-  const beforeTodo = todoList.filter((todo) => !todo.check);
+  const beforeTodos = todoList.filter((todo) => !todo.check);
+
   return (
     <Main>
-      남은 할 일<NumMsg>{beforeTodo.length}</NumMsg>
+      남은 할 일 <NumMsg>{beforeTodos.length}</NumMsg>
     </Main>
   );
-}
+});
 export default Foot;

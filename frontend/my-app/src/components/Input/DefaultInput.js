@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 
 const Input = styled.input`
@@ -12,26 +12,20 @@ const Input = styled.input`
   }
 `;
 
-function DefaultInput({
-  name,
-  type,
-  placeholder,
-  value,
-  onChange,
-  onKeyPress,
-  ref,
-}) {
-  return (
-    <Input
-      name={name}
-      type={type}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      onKeyPress={onKeyPress}
-      ref={ref}
-    />
-  );
-}
+const DefaultInput = memo(
+  ({ name, type, placeholder, value, onChange, onKeyPress, ref }) => {
+    return (
+      <Input
+        name={name}
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        onKeyPress={onKeyPress}
+        ref={ref}
+      />
+    );
+  }
+);
 
 export default DefaultInput;

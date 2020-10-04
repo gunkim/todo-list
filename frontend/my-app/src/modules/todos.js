@@ -1,4 +1,5 @@
 import * as todosAPI from "../api/todos";
+import { createReducer, createStateUtils } from "../lib/reducerUtils";
 
 const CREATE_TODO = "CREATE_TODO";
 const CREATE_TODO_SUCCESS = `${CREATE_TODO}_SUCCESS`;
@@ -22,7 +23,7 @@ export const createTodo = (text) => async (dispatch) => {
   try {
     await todosAPI.createTodo(text);
     const response = await todosAPI.getTodos();
-    dispatch({ type: CREATE_TODO_SUCCESS, data: response });
+    dispatch({ type: CREATE_TODO_SUCCESS, payload: response });
   } catch (e) {
     dispatch({ type: CREATE_TODO_ERROR });
   }
@@ -34,7 +35,7 @@ export const deleteTodo = (id) => async (dispatch) => {
   try {
     await todosAPI.deleteTodo(id);
     const response = await todosAPI.getTodos();
-    dispatch({ type: DELETE_TODO_SUCCESS, data: response });
+    dispatch({ type: DELETE_TODO_SUCCESS, payload: response });
   } catch (e) {
     dispatch({ type: DELETE_TODO_ERROR });
   }
@@ -45,7 +46,7 @@ export const getTodos = () => async (dispatch) => {
 
   try {
     const response = await todosAPI.getTodos();
-    dispatch({ type: GET_TODOS_SUCCESS, data: response });
+    dispatch({ type: GET_TODOS_SUCCESS, payload: response });
   } catch (e) {
     dispatch({ type: GET_TODOS_ERROR });
   }
@@ -56,95 +57,32 @@ export const setReverseCheckTodo = (id) => async (dispatch) => {
   try {
     await todosAPI.setReverseCheckTodo(id);
     const response = await todosAPI.getTodos();
-    dispatch({ type: SET_REVERSE_CHECK_TODO_SUCCESS, data: response });
+    dispatch({ type: SET_REVERSE_CHECK_TODO_SUCCESS, payload: response });
   } catch (e) {
     dispatch({ type: SET_REVERSE_CHECK_TODO_ERROR });
   }
 };
 
-const initialState = {
-  loading: false,
-  error: null,
-  data: [],
-};
+const initialState = createStateUtils.initial([]);
+
 export default function todos(state = initialState, action) {
   switch (action.type) {
     case GET_TODOS:
-      return {
-        ...state,
-        loading: true,
-        error: false,
-      };
     case GET_TODOS_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        data: action.data,
-        error: false,
-      };
     case GET_TODOS_ERROR:
-      return {
-        ...state,
-        loading: false,
-        error: true,
-      };
+      return createReducer(GET_TODOS)(state, action);
     case DELETE_TODO:
-      return {
-        ...state,
-        loading: true,
-        error: false,
-      };
     case DELETE_TODO_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        data: action.data,
-        error: false,
-      };
     case DELETE_TODO_ERROR:
-      return {
-        ...state,
-        loading: false,
-        error: true,
-      };
+      return createReducer(DELETE_TODO)(state, action);
     case CREATE_TODO:
-      return {
-        ...state,
-        loading: true,
-        error: false,
-      };
     case CREATE_TODO_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        data: action.data,
-        error: false,
-      };
     case CREATE_TODO_ERROR:
-      return {
-        ...state,
-        loading: false,
-        error: true,
-      };
+      return createReducer(CREATE_TODO)(state, action);
     case SET_REVERSE_CHECK_TODO:
-      return {
-        ...state,
-        loading: true,
-        error: false,
-      };
     case SET_REVERSE_CHECK_TODO_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        data: action.data,
-        error: false,
-      };
     case SET_REVERSE_CHECK_TODO_ERROR:
-      return {
-        ...state,
-        loading: false,
-        error: true,
-      };
+      return createReducer(SET_REVERSE_CHECK_TODO)(state, action);
     default:
       return state;
   }
