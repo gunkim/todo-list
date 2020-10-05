@@ -1,5 +1,5 @@
 import * as usersAPI from "../api/users";
-import { createReducer, createStateUtils } from "../lib/reducerUtils";
+import { createReducer, createStateUtils } from "../lib/asyncUtils";
 
 const LOGIN_PROCESS = "LOGIN_PROCESS";
 const LOGIN_PROCESS_SUCCESS = `${LOGIN_PROCESS}_SUCCESS`;

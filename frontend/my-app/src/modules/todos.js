@@ -1,5 +1,9 @@
 import * as todosAPI from "../api/todos";
-import { createReducer, createStateUtils } from "../lib/reducerUtils";
+import {
+  createReducer,
+  createStateUtils,
+  createPromiseThunk,
+} from "../lib/asyncUtils";
 
 const CREATE_TODO = "CREATE_TODO";
 const CREATE_TODO_SUCCESS = `${CREATE_TODO}_SUCCESS`;
@@ -17,51 +21,13 @@ const SET_REVERSE_CHECK_TODO = "SET_REVERSE_CHECK_TODO";
 const SET_REVERSE_CHECK_TODO_SUCCESS = `${SET_REVERSE_CHECK_TODO}_SUCCESS`;
 const SET_REVERSE_CHECK_TODO_ERROR = `${SET_REVERSE_CHECK_TODO}_ERROR`;
 
-export const createTodo = (text) => async (dispatch) => {
-  dispatch({ type: CREATE_TODO });
-
-  try {
-    await todosAPI.createTodo(text);
-    const response = await todosAPI.getTodos();
-    dispatch({ type: CREATE_TODO_SUCCESS, payload: response });
-  } catch (e) {
-    dispatch({ type: CREATE_TODO_ERROR });
-  }
-};
-
-export const deleteTodo = (id) => async (dispatch) => {
-  dispatch({ type: DELETE_TODO });
-
-  try {
-    await todosAPI.deleteTodo(id);
-    const response = await todosAPI.getTodos();
-    dispatch({ type: DELETE_TODO_SUCCESS, payload: response });
-  } catch (e) {
-    dispatch({ type: DELETE_TODO_ERROR });
-  }
-};
-
-export const getTodos = () => async (dispatch) => {
-  dispatch({ type: GET_TODOS });
-
-  try {
-    const response = await todosAPI.getTodos();
-    dispatch({ type: GET_TODOS_SUCCESS, payload: response });
-  } catch (e) {
-    dispatch({ type: GET_TODOS_ERROR });
-  }
-};
-export const setReverseCheckTodo = (id) => async (dispatch) => {
-  dispatch({ type: SET_REVERSE_CHECK_TODO });
-
-  try {
-    await todosAPI.setReverseCheckTodo(id);
-    const response = await todosAPI.getTodos();
-    dispatch({ type: SET_REVERSE_CHECK_TODO_SUCCESS, payload: response });
-  } catch (e) {
-    dispatch({ type: SET_REVERSE_CHECK_TODO_ERROR });
-  }
-};
+export const createTodo = createPromiseThunk(CREATE_TODO, todosAPI.createTodo);
+export const deleteTodo = createPromiseThunk(DELETE_TODO, todosAPI.deleteTodo);
+export const getTodos = createPromiseThunk(GET_TODOS);
+export const setReverseCheckTodo = createPromiseThunk(
+  SET_REVERSE_CHECK_TODO,
+  todosAPI.setReverseCheckTodo
+);
 
 const initialState = createStateUtils.initial([]);
 

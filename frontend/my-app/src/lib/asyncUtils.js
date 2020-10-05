@@ -1,3 +1,5 @@
+import * as todosAPI from "../api/todos";
+
 export const createStateUtils = {
   initial: (initialData = null) => ({
     loading: false,
@@ -15,8 +17,8 @@ export const createStateUtils = {
   }),
   error: (error) => ({
     loading: false,
-    data: null,
-    error: error,
+    data: error,
+    error: true,
   }),
 };
 export const createReducer = (type) => {
@@ -40,6 +42,21 @@ export const createReducer = (type) => {
         };
       default:
         return state;
+    }
+  };
+};
+
+export const createPromiseThunk = (type, promiseCreator = null) => {
+  const [REQUEST, SUCCESS, ERROR] = [type, `${type}_SUCCESS`, `${type}_ERROR`];
+
+  return (param) => async (dispatch) => {
+    dispatch({ type: REQUEST, data: param });
+    try {
+      if (promiseCreator) await promiseCreator(param);
+      const response = await todosAPI.getTodos();
+      setTimeout(() => dispatch({ type: SUCCESS, data: response }), 700);
+    } catch (e) {
+      dispatch({ type: ERROR, data: e, error: true });
     }
   };
 };
