@@ -1,17 +1,17 @@
-import React, { Fragment } from "react";
-import ListTemplate from "../components/Template/Template";
-import List from "../components/List/List";
-import InputForm from "../components/Form/InputForm";
-import Foot from "../components/Foot/Foot";
+import React from "react";
+import FootContainer from "../container/FootContainer";
+import Template from "../components/Template";
+import ListContainer from "../container/ListContainer";
+import InputFormContainer from "../container/InputFormContainer";
 
-function TodoList() {
+const TodoList = () => {
   return (
-    <Fragment>
-      <ListTemplate form={<InputForm />} foot={<Foot />}>
-        <List />
-      </ListTemplate>
-    </Fragment>
+    <>
+      <Template form={<InputFormContainer />} foot={<FootContainer />}>
+        <ListContainer />
+      </Template>
+    </>
   );
-}
+};
 
 export default TodoList;

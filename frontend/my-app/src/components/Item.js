@@ -2,10 +2,10 @@ import React from "react";
 import { GrCheckbox, GrCheckboxSelected } from "react-icons/gr";
 import { AiFillDelete } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-import { deleteTodo } from "../../modules/todos";
-import { setReverseCheckTodo } from "../../modules/todos";
+import { deleteTodo } from "../modules/todos";
+import { setReverseCheckTodo } from "../modules/todos";
 import styled from "styled-components";
-import { makeStyles } from "@material-ui/core/styles"; // styles 기능 추가
+import { makeStyles } from "@material-ui/core/styles";
 
 const Main = styled.div`
   padding-left: 20px;
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Item({ id, text, check }) {
+const Item = ({ id, text, check }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const onClick = () => {
@@ -45,6 +45,6 @@ function Item({ id, text, check }) {
       <AiFillDelete className={classes.root} onClick={onDelete} />
     </Main>
   );
-}
+};
 
 export default Item;

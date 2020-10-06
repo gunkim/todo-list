@@ -10,9 +10,9 @@ export const createStateUtils = {
     loading: true,
     error: null,
   }),
-  success: (payload) => ({
+  success: (data) => ({
     loading: false,
-    data: payload,
+    data: data,
     error: false,
   }),
   error: (error) => ({
@@ -33,12 +33,12 @@ export const createReducer = (type) => {
       case SUCCESS:
         return {
           ...state,
-          ...createStateUtils.success(action.payload),
+          ...createStateUtils.success(action.data),
         };
       case ERROR:
         return {
           ...state,
-          ...createStateUtils.error(action.payload),
+          ...createStateUtils.error(action.data),
         };
       default:
         return state;
@@ -54,7 +54,7 @@ export const createPromiseThunk = (type, promiseCreator = null) => {
     try {
       if (promiseCreator) await promiseCreator(param);
       const response = await todosAPI.getTodos();
-      setTimeout(() => dispatch({ type: SUCCESS, data: response }), 700);
+      setTimeout(() => dispatch({ type: SUCCESS, data: response }), 200);
     } catch (e) {
       dispatch({ type: ERROR, data: e, error: true });
     }

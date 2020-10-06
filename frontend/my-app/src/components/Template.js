@@ -14,7 +14,7 @@ const Main = styled.div`
   padding-top: 10px;
 `;
 
-function ListTemplate({ form, children, foot }) {
+const TodoListTemplate = ({ form, children, foot }) => {
   return (
     <Main>
       {form}
@@ -22,6 +22,6 @@ function ListTemplate({ form, children, foot }) {
       {foot}
     </Main>
   );
-}
+};
 
-export default ListTemplate;
+export default TodoListTemplate;

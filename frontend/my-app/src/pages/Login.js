@@ -1,14 +1,13 @@
 import React from "react";
-import ListTemplate from "../components/Template/Template";
-import LoginForm from "../components/Form/LoginForm";
+import Template from "../components/Template";
+import LoginFormContainer from "../container/LoginFormContainer";
 
-function Login() {
+const Login = () => {
   return (
-    <ListTemplate>
-      <h1>로그인</h1>
-      <LoginForm />
-    </ListTemplate>
+    <Template>
+      <LoginFormContainer />
+    </Template>
   );
-}
+};
 
 export default Login;
