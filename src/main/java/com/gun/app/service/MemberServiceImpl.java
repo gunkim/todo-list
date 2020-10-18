@@ -15,11 +15,8 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     @Override
     public MemberResponseDto getMember(String memberId) throws UserPrincipalNotFoundException{
-        Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
-
-        if(!optionalMember.isPresent()){
-            throw new UserPrincipalNotFoundException("해당 아이디의 회원 정보를 찾을 수 없습니다 : "+memberId);
-        }
-        return new MemberResponseDto(optionalMember.get());
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new UserPrincipalNotFoundException("해당 아이디의 회원 정보를 찾을 수 없습니다 : "+memberId));
+        return new MemberResponseDto(member);
     }
 }
