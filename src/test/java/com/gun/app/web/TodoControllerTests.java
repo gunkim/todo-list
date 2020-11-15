@@ -2,14 +2,17 @@ package com.gun.app.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gun.app.config.security.model.LoginDto;
-import com.gun.app.domain.*;
-import com.gun.app.dto.TodoRequestDTO;
+import com.gun.app.domain.entity.Member;
+import com.gun.app.domain.entity.Todo;
+import com.gun.app.domain.enums.Role;
+import com.gun.app.domain.repository.MemberRepository;
+import com.gun.app.domain.repository.TodoRepository;
+import com.gun.app.dto.TodoRequestDto;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
@@ -143,7 +146,7 @@ public class TodoControllerTests {
     @Test
     @WithMockUser(roles = "USER",username = "gunkim")
     public void createTodoTest() throws Exception {
-        TodoRequestDTO dto = TodoRequestDTO.builder()
+        TodoRequestDto dto = TodoRequestDto.builder()
                 .text("입력 테스트")
                 .build();
 

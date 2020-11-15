@@ -1,5 +1,7 @@
-package com.gun.app.domain;
+package com.gun.app.domain.entity;
 
+import com.gun.app.domain.entity.common.BaseTimeEntity;
+import com.gun.app.domain.enums.Role;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member extends BaseTimeEntity{
+public class Member extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

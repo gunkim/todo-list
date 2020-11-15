@@ -1,21 +1,16 @@
 package com.gun.app.service;
 
-import com.gun.app.domain.Member;
-import com.gun.app.domain.MemberRepository;
-import com.gun.app.domain.Todo;
-import com.gun.app.domain.TodoRepository;
-import com.gun.app.dto.MemberResponseDto;
-import com.gun.app.dto.TodoRequestDTO;
-import com.gun.app.dto.TodoResponseDTO;
+import com.gun.app.domain.entity.Member;
+import com.gun.app.domain.repository.MemberRepository;
+import com.gun.app.domain.entity.Todo;
+import com.gun.app.domain.repository.TodoRepository;
+import com.gun.app.dto.TodoRequestDto;
+import com.gun.app.dto.TodoResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -29,14 +24,14 @@ public class TodoServiceImpl implements TodoService{
 
     @Transactional(readOnly = true)
     @Override
-    public List<TodoResponseDTO> getTodoList(String memberId) throws IllegalArgumentException{
+    public List<TodoResponseDto> getTodoList(String memberId) throws IllegalArgumentException{
         Member member = memberRepository.findByMemberId(memberId).orElseThrow(() -> new IllegalArgumentException("해당 멤버를 찾을 수 없습니다 member="+memberId));
 
-        return todoRepository.findAllByMember(member).stream().map(TodoResponseDTO::new).collect(Collectors.toList());
+        return todoRepository.findAllByMember(member).stream().map(TodoResponseDto::new).collect(Collectors.toList());
     }
 
     @Override
-    public void createTodo(String memberId, TodoRequestDTO dto) throws IllegalArgumentException{
+    public void createTodo(String memberId, TodoRequestDto dto) throws IllegalArgumentException{
         Member optMember = memberRepository.findByMemberId(memberId).orElseThrow(() -> new IllegalArgumentException("해당 멤버를 찾을 수 없습니다 member="+memberId));
 
         todoRepository.save(dto.toEntity(optMember));

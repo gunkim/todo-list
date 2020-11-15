@@ -1,11 +1,10 @@
 package com.gun.app.web;
 
-import com.gun.app.dto.TodoRequestDTO;
-import com.gun.app.dto.TodoResponseDTO;
+import com.gun.app.dto.TodoRequestDto;
+import com.gun.app.dto.TodoResponseDto;
 import com.gun.app.service.TodoService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +27,7 @@ public class TodoController {
 
     @ApiOperation("할 일 목록 조회")
     @GetMapping("/list")
-    public ResponseEntity<List<TodoResponseDTO>> getTodoList(Principal principal) throws IllegalArgumentException{
+    public ResponseEntity<List<TodoResponseDto>> getTodoList(Principal principal) throws IllegalArgumentException{
         String memberId = principal.getName();
         return new ResponseEntity<>(todoService.getTodoList(memberId), HttpStatus.OK);
     }
@@ -45,7 +44,7 @@ public class TodoController {
             @ApiImplicitParam(name="isCheck", value="체크여부", dataType = "boolean")
     })
     @PostMapping("")
-    public ResponseEntity<String> createTodo(@RequestBody TodoRequestDTO dto, Principal principal){
+    public ResponseEntity<String> createTodo(@RequestBody TodoRequestDto dto, Principal principal){
         String memberId = principal.getName();
         try{
             todoService.createTodo(memberId, dto);
@@ -65,8 +64,7 @@ public class TodoController {
         }
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
-//    @ApiOperation("할 일 체크 반전")
-//    @ApiImplicitParam(name="id", value="idx번호")
+    @ApiOperation("할 일 체크 반전")
     @PutMapping("/{id}")
     public ResponseEntity<String> setReverseCheckTodo(@PathVariable long id, Principal principal){
         String memberId = principal.getName();

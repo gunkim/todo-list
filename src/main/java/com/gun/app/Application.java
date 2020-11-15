@@ -1,8 +1,8 @@
 package com.gun.app;
 
-import com.gun.app.domain.Member;
-import com.gun.app.domain.MemberRepository;
-import com.gun.app.domain.Role;
+import com.gun.app.domain.entity.Member;
+import com.gun.app.domain.repository.MemberRepository;
+import com.gun.app.domain.enums.Role;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +11,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.SQLException;
-import java.util.stream.IntStream;
 
 @EnableJpaAuditing
 @SpringBootApplication

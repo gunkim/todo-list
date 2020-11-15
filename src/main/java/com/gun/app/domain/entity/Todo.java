@@ -1,5 +1,6 @@
-package com.gun.app.domain;
+package com.gun.app.domain.entity;
 
+import com.gun.app.domain.entity.common.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Todo extends BaseTimeEntity{
+public class Todo extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

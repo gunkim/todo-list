@@ -1,7 +1,7 @@
 package com.gun.app.dto;
 
-import com.gun.app.domain.Member;
-import com.gun.app.domain.Role;
+import com.gun.app.domain.entity.Member;
+import com.gun.app.domain.enums.Role;
 import lombok.Getter;
 import lombok.ToString;
 

@@ -1,11 +1,15 @@
 package com.gun.app.domain;
 
+import com.gun.app.domain.entity.Member;
+import com.gun.app.domain.entity.Todo;
+import com.gun.app.domain.enums.Role;
+import com.gun.app.domain.repository.MemberRepository;
+import com.gun.app.domain.repository.TodoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 

@@ -1,4 +1,4 @@
-package com.gun.app.domain;
+package com.gun.app.domain.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

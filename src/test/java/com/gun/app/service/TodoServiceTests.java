@@ -1,7 +1,11 @@
 package com.gun.app.service;
 
-import com.gun.app.domain.*;
-import com.gun.app.dto.TodoRequestDTO;
+import com.gun.app.domain.entity.Member;
+import com.gun.app.domain.entity.Todo;
+import com.gun.app.domain.enums.Role;
+import com.gun.app.domain.repository.MemberRepository;
+import com.gun.app.domain.repository.TodoRepository;
+import com.gun.app.dto.TodoRequestDto;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -63,7 +67,7 @@ public class TodoServiceTests {
     public void createTodoTest(){
         todoRepository.deleteAll();
         todoService.createTodo("gunkim",
-                TodoRequestDTO
+                TodoRequestDto
                         .builder()
                         .text("입력 테스트")
                         .isCheck(true)

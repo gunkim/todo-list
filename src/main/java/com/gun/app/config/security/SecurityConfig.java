@@ -8,7 +8,7 @@ import com.gun.app.config.security.handler.CommonFailHandler;
 import com.gun.app.config.security.provider.AsyncLoginProvider;
 import com.gun.app.config.security.provider.JwtAuthProvider;
 import com.gun.app.config.security.util.JwtUtil;
-import com.gun.app.domain.Role;
+import com.gun.app.domain.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,9 +16,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import java.util.Arrays;
-import java.util.List;
 
 @RequiredArgsConstructor
 @EnableWebSecurity

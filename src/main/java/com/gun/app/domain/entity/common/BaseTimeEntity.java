@@ -1,4 +1,4 @@
-package com.gun.app.domain;
+package com.gun.app.domain.entity.common;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

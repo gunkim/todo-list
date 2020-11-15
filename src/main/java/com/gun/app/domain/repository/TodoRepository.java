@@ -1,5 +1,7 @@
-package com.gun.app.domain;
+package com.gun.app.domain.repository;
 
+import com.gun.app.domain.entity.Member;
+import com.gun.app.domain.entity.Todo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

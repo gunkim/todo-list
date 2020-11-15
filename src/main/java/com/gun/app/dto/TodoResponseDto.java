@@ -1,7 +1,6 @@
 package com.gun.app.dto;
 
-import com.gun.app.domain.Member;
-import com.gun.app.domain.Todo;
+import com.gun.app.domain.entity.Todo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -11,12 +10,12 @@ import lombok.ToString;
  */
 @Getter
 @ToString
-public class TodoResponseDTO {
+public class TodoResponseDto {
     private long id;
     private String text;
     private boolean isCheck;
     @Builder
-    public TodoResponseDTO(Todo todo){
+    public TodoResponseDto(Todo todo){
         this.id = todo.getId();
         this.text = todo.getText();
         this.isCheck = todo.isCheck();

@@ -1,8 +1,7 @@
 package com.gun.app.service;
 
-import com.gun.app.domain.Todo;
-import com.gun.app.dto.TodoRequestDTO;
-import com.gun.app.dto.TodoResponseDTO;
+import com.gun.app.dto.TodoRequestDto;
+import com.gun.app.dto.TodoResponseDto;
 
 import java.util.List;
 
@@ -14,11 +13,11 @@ public interface TodoService {
      * 할 일 리스트 조회
      * @return List<TodoResponseDTO>
      */
-    List<TodoResponseDTO> getTodoList(String memberId);
+    List<TodoResponseDto> getTodoList(String memberId);
     /**
      * 할 일 목록 작성
      */
-    void createTodo(String memberId, TodoRequestDTO dto);
+    void createTodo(String memberId, TodoRequestDto dto);
 
     /**
      * 할 일 체크 목록 반전.

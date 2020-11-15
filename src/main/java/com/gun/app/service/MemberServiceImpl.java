@@ -1,13 +1,12 @@
 package com.gun.app.service;
 
-import com.gun.app.domain.Member;
-import com.gun.app.domain.MemberRepository;
+import com.gun.app.domain.entity.Member;
+import com.gun.app.domain.repository.MemberRepository;
 import com.gun.app.dto.MemberResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
