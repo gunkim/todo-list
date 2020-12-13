@@ -7,7 +7,7 @@ export const deleteTodo = async (id) => {
   const response = await axios.delete(`${BASE_API_URI}/${id}`, {
     headers: { Authorization: token },
   });
-  return response.status;
+  return response.data;
 };
 export const getTodos = async () => {
   const token = localStorage.getItem("token");
@@ -25,12 +25,12 @@ export const createTodo = async (text) => {
       headers: { Authorization: token },
     }
   );
-  return response.status;
+  return response.data;
 };
 export const setReverseCheckTodo = async (id) => {
   const token = localStorage.getItem("token");
   const response = await axios.put(`${BASE_API_URI}/${id}`, null, {
     headers: { Authorization: token },
   });
-  return response.status;
+  return response.data;
 };
