@@ -9,7 +9,7 @@ const FailMsg = styled.div`
 
 function LoginForm({ userId, password, loading, error, onChange, onKeyPress }) {
   return (
-    <div>
+    <>
       <h1>로그인</h1>
       <div>
         <DefaultInput
@@ -32,7 +32,7 @@ function LoginForm({ userId, password, loading, error, onChange, onKeyPress }) {
       </div>
       {loading && <CircularProgress />}
       {error && <FailMsg>아이디 및 비밀번호를 다시 한번 확인해주세요.</FailMsg>}
-    </div>
+    </>
   );
 }
 
