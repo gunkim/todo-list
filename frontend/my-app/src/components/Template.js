@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 const Main = styled.div`
-  width: 50%;
   text-align: center;
   border-radius: 5px;
   margin: 0 auto;
@@ -12,6 +11,10 @@ const Main = styled.div`
   margin-top: 50px;
   margin-bottom: 50px;
   padding-top: 10px;
+  width: 50%;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const TodoListTemplate = ({ form, children, foot }) => {
