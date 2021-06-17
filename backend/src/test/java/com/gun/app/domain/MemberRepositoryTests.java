@@ -2,23 +2,22 @@ package com.gun.app.domain;
 
 import com.gun.app.domain.entity.Member;
 import com.gun.app.domain.repository.MemberRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * MemberRepository 테스트
- * @author gunkim
- */
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
-@RunWith(SpringRunner.class)
 public class MemberRepositoryTests {
     @Autowired
     private MemberRepository memberRepository;
@@ -26,13 +25,14 @@ public class MemberRepositoryTests {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Before
+    @BeforeEach
     public void before(){
         memberRepository.deleteAll();
     }
 
+    @DisplayName("회원 저장 테스트")
     @Test
-    public void insertTest(){
+    public void memberSaveTest(){
         memberRepository.save(
                 Member.builder()
                         .memberId("gunkim")
@@ -41,7 +41,7 @@ public class MemberRepositoryTests {
         );
 
         Member member = memberRepository.findAll().get(0);
-        assertEquals(member.getMemberId(), "gunkim");
+        assertThat(member.getMemberId(), is(equalTo("gunkim")));
         assertTrue(passwordEncoder.matches("test", member.getPassword()));
     }
 }

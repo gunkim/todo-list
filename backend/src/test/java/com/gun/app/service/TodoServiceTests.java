@@ -6,24 +6,23 @@ import com.gun.app.domain.enums.Role;
 import com.gun.app.domain.repository.MemberRepository;
 import com.gun.app.domain.repository.TodoRepository;
 import com.gun.app.dto.TodoRequestDto;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Fail.fail;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * TodoServicer 테스트
- * @author gunkim
- */
-@Slf4j
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class TodoServiceTests {
     @Autowired
@@ -34,7 +33,7 @@ public class TodoServiceTests {
     @Autowired
     private MemberRepository memberRepository;
 
-    @Before
+    @BeforeEach
     public void before(){
         todoRepository.deleteAll();
         memberRepository.deleteAll();
@@ -55,6 +54,7 @@ public class TodoServiceTests {
                         .build()
         );
     }
+    @DisplayName("좋아요 반전 테스트")
     @Test
     public void setReverseCheckTodoTest(){
         long id = todoRepository.findAll().get(0).getId();
@@ -63,6 +63,7 @@ public class TodoServiceTests {
         Todo todo = todoRepository.findAll().get(0);
         assertTrue(todo.isCheck());
     }
+    @DisplayName("할 일 등록 테스트")
     @Test
     public void createTodoTest(){
         todoRepository.deleteAll();
@@ -74,9 +75,10 @@ public class TodoServiceTests {
                         .build()
         );
         Todo todo = todoRepository.findAll().get(0);
-        assertEquals(todo.getText(), "입력 테스트");
+        assertThat(todo.getText(), is(equalTo("입력 테스트")));
         assertTrue(todo.isCheck());
     }
+    @DisplayName("할 일 삭제 테스트")
     @Test
     public void deleteTodoTest(){
         long id = todoRepository.findAll().get(0).getId();
@@ -87,8 +89,9 @@ public class TodoServiceTests {
             fail("TODO 삭제 실패");
         }
     }
+    @DisplayName("할 일 목록 조회 테스트")
     @Test
     public void getTodoListTest(){
-        todoService.getTodoList("gunkim").stream().forEach(todoResponseDTO -> log.info(todoResponseDTO.toString()));
+        todoService.getTodoList("gunkim").stream().forEach(todoResponseDTO -> System.out.println(todoResponseDTO));
     }
 }
