@@ -7,5 +7,5 @@ export const loginPro = async (id, pw) => {
     username: id,
     password: pw,
   });
-  return await response.data;
+  return await response;
 };
