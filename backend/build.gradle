@@ -1,10 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.2.4.RELEASE'
-        mooworkNodeVersion = '1.3.1'
-        springManagerVersion = '1.0.9.RELEASE'
-        swaggerVersion = '2.9.2'
-        jwtVersion = '0.9.1'
+        springBootVersion = '2.5.0'
     }
     repositories {
         mavenCentral()
@@ -19,14 +15,13 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'org.springframework.boot' version "${springBootVersion}"
-    id 'io.spring.dependency-management' version "${springManagerVersion}"
-    id "com.moowork.node" version "${mooworkNodeVersion}"
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 }
 
-group 'org.simpleboard'
-version '1.0'
+group 'dev.gunlog'
+version '1.1'
 
-sourceCompatibility = 1.8
+sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
@@ -36,29 +31,13 @@ repositories {
 dependencies {
     implementation group:'org.springframework.boot', name:'spring-boot-starter-data-jpa'
     implementation group:'org.springframework.boot', name:'spring-boot-starter-web'
-    runtimeOnly group:'com.h2database', name:'h2'
     testImplementation group:'org.springframework.boot', name:'spring-boot-starter-test'
-    testImplementation group: 'junit', name: 'junit'
-    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: "${swaggerVersion}"
-    implementation group: 'io.springfox', name: 'springfox-swagger2', version: "${swaggerVersion}"
-    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: "${jwtVersion}"
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
-    compileOnly group: 'org.projectlombok', name: 'lombok'
-    testCompileOnly group: 'org.projectlombok', name: 'lombok'
-    annotationProcessor group: 'org.projectlombok', name: 'lombok'
-    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok'
     implementation group: 'org.springframework.security', name: 'spring-security-test'
-
+    runtimeOnly group:'com.h2database', name:'h2'
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    compileOnly group: 'org.projectlombok', name: 'lombok'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok'
 }
-def webappDir = "$projectDir/frontend/my-app"
-
-task appNpmInstall(type: NpmTask) {
-    workingDir = file("${webappDir}")
-    args = ["run", "build"]
-}
-task copyWebApp(type: Copy) {
-    from 'frontend/my-app/build'
-    into "build/resources/main/static"
-}
-copyWebApp.dependsOn(appNpmInstall)
-compileJava.dependsOn(copyWebApp)
