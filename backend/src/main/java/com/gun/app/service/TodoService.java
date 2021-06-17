@@ -1,31 +1,49 @@
 package com.gun.app.service;
 
+import com.gun.app.domain.entity.Member;
+import com.gun.app.domain.entity.Todo;
+import com.gun.app.domain.repository.MemberRepository;
+import com.gun.app.domain.repository.TodoRepository;
 import com.gun.app.dto.TodoRequestDto;
 import com.gun.app.dto.TodoResponseDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 할 일 비즈니스 로직 처리를 위한 서비스
  */
-public interface TodoService {
-    /**
-     * 할 일 리스트 조회
-     * @return List<TodoResponseDTO>
-     */
-    List<TodoResponseDto> getTodoList(String memberId);
-    /**
-     * 할 일 목록 작성
-     */
-    void createTodo(String memberId, TodoRequestDto dto);
+@Service
+@RequiredArgsConstructor
+public class TodoService {
+    private final TodoRepository todoRepository;
+    private final MemberRepository memberRepository;
 
-    /**
-     * 할 일 체크 목록 반전.
-     */
-    void setReverseCheckTodo(String memberId, long id) throws IllegalArgumentException;
+    @Transactional(readOnly = true)
+    public List<TodoResponseDto> getTodoList(String memberId) throws IllegalArgumentException{
+        Member member = memberRepository.findByMemberId(memberId).orElseThrow(() -> new IllegalArgumentException("해당 멤버를 찾을 수 없습니다 member="+memberId));
 
-    /**
-     * 할 일 삭제
-     */
-    void deleteTodo(String memberId, long id) throws IllegalArgumentException;
+        return todoRepository.findAllByMember(member).stream().map(TodoResponseDto::new).collect(Collectors.toList());
+    }
+    public void createTodo(String memberId, TodoRequestDto dto) throws IllegalArgumentException{
+        Member optMember = memberRepository.findByMemberId(memberId).orElseThrow(() -> new IllegalArgumentException("해당 멤버를 찾을 수 없습니다 member="+memberId));
+
+        todoRepository.save(dto.toEntity(optMember));
+    }
+    public void setReverseCheckTodo(String memberId, long id) throws IllegalArgumentException{
+        Member member = memberRepository.findByMemberId(memberId).orElseThrow(() -> new IllegalArgumentException("해당 멤버를 찾을 수 없습니다 member="+memberId));
+        Todo todo = todoRepository.findByIdAndMember(id, member).orElseThrow(()-> new IllegalArgumentException("해당 할 일을 찾을 수 없습니다 id="+id));
+
+        todo.update(todo.getText(), !todo.isCheck());
+        todoRepository.save(todo);
+    }
+    public void deleteTodo(String memberId, long id) throws IllegalArgumentException{
+        Member member = memberRepository.findByMemberId(memberId).orElseThrow(()-> new IllegalArgumentException("해당 멤버를 찾을 수 없습니다 member="+memberId));
+        Todo todo = todoRepository.findByIdAndMember(id, member).orElseThrow(()-> new IllegalArgumentException("해당 할 일을 찾을 수 없습니다 id"+id));
+
+        todoRepository.delete(todo);
+    }
 }
