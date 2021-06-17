@@ -8,47 +8,43 @@ import com.gun.app.domain.enums.Role;
 import com.gun.app.domain.repository.MemberRepository;
 import com.gun.app.domain.repository.TodoRepository;
 import com.gun.app.dto.TodoRequestDto;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-import static org.junit.Assert.*;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.assertj.core.api.Fail.fail;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * TodoController 테스트
- * @author gunkim
- */
-@Slf4j
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
 public class TodoControllerTests {
     @LocalServerPort
     private int port;
 
-    private MockMvc mockMvc;
-
     @Autowired
-    private WebApplicationContext ctx;
+    private MockMvc mockMvc;
 
     @Autowired
     private TodoRepository todoRepository;
@@ -62,16 +58,12 @@ public class TodoControllerTests {
 
     private String jwtToken;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         todoRepository.deleteAll();
         memberRepository.deleteAll();
-        this.baseUrl = String.format(baseUrl, port);
 
-        this.mockMvc = MockMvcBuilders
-                .webAppContextSetup(ctx)
-                .apply(springSecurity())
-                .build();
+        this.baseUrl = String.format(baseUrl, port);
 
         Member member = Member.builder()
                 .memberId("gunkim")
@@ -96,12 +88,11 @@ public class TodoControllerTests {
                 .content(new ObjectMapper().writeValueAsString(dto))
         ).andExpect(status().isOk()).andDo(print()).andReturn();
 
-        this.jwtToken =result.getResponse().getContentAsString();
+        this.jwtToken = result.getResponse().getContentAsString().replace("\"", "");
     }
     @Test
-    @WithMockUser(roles = "USER",username = "gunkim")
+    @DisplayName("할 일 목록 조회 api 테스트")
     public void getTodoListTest() throws Exception {
-
         String url = baseUrl+"/list";
 
         mockMvc.perform(get(url).header("Authorization", jwtToken).contentType(MediaType.APPLICATION_JSON))
@@ -109,7 +100,7 @@ public class TodoControllerTests {
                 .andDo(print());
     }
     @Test
-    @WithMockUser(roles = "USER",username = "gunkim")
+    @DisplayName("좋아요 반전 api 테스트")
     public void setReverseCheckTodoTest() throws Exception {
         long id = todoRepository.findAll().get(0).getId();
 
@@ -128,7 +119,7 @@ public class TodoControllerTests {
         }
     }
     @Test
-    @WithMockUser(roles = "USER",username = "gunkim")
+    @DisplayName("할일 삭제 api 테스트")
     public void deleteTodoTest() throws Exception {
         long id = todoRepository.findAll().get(0).getId();
 
@@ -144,7 +135,7 @@ public class TodoControllerTests {
         }
     }
     @Test
-    @WithMockUser(roles = "USER",username = "gunkim")
+    @DisplayName("할 일 등록 api 테스트")
     public void createTodoTest() throws Exception {
         TodoRequestDto dto = TodoRequestDto.builder()
                 .text("입력 테스트")
@@ -156,11 +147,8 @@ public class TodoControllerTests {
         ).andExpect(status().isOk()).andDo(print());
 
         List<Todo> todoAllList = todoRepository.findAll();
-        todoAllList.stream().forEach(todo -> {
-            log.info("todo : "+todo.toString());
-        });
         Todo todo = todoAllList.get(todoAllList.size() - 1);
 
-        assertEquals(dto.getText(), todo.getText());
+        assertThat(dto.getText(), is(equalTo(todo.getText())));
     }
 }
