@@ -4,7 +4,7 @@
 
 > Java : 11  
 > Gradle : 6.4.1  
-> Spring Boot : 2.5.0  
+> Spring Boot : 2.5.0
 
 ## 구현 기능
 
@@ -15,6 +15,4 @@
 
 # Demo
 
-![image](https://user-images.githubusercontent.com/45007556/92085569-fb7ff100-ee03-11ea-843c-fd846c253519.png)
-
-![image](https://user-images.githubusercontent.com/45007556/92085903-6d583a80-ee04-11ea-8cc7-337db3f1676d.png)
+![demo](https://user-images.githubusercontent.com/45007556/122488383-53e15180-d018-11eb-892e-48ba3be53e11.gif)
