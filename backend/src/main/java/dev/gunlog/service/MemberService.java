@@ -8,9 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 
-/**
- * 회원 비즈니스 로직 처리 서비스
- */
 @RequiredArgsConstructor
 @Service
 public class MemberService {
