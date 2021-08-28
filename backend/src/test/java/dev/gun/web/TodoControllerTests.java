@@ -1,7 +1,7 @@
 package dev.gun.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.gunlog.config.security.model.LoginDto;
+import dev.gunlog.security.model.LoginDto;
 import dev.gunlog.domain.entity.Member;
 import dev.gunlog.domain.entity.Todo;
 import dev.gunlog.domain.enums.Role;

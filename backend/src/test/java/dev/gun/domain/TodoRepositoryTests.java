@@ -50,7 +50,7 @@ public class TodoRepositoryTests {
     public void todoUpdateTest(){
         String updateTextStr = "수정 테스트";
         Todo todo = todoRepository.findAll().get(0);
-        todo.update(updateTextStr, false);
+        todo.updateTextAndCheck(updateTextStr, false);
 
         todoRepository.save(todo);
 

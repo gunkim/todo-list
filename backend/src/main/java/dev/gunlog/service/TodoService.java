@@ -13,9 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * 할 일 비즈니스 로직 처리를 위한 서비스
- */
 @Service
 @RequiredArgsConstructor
 public class TodoService {
@@ -37,7 +34,7 @@ public class TodoService {
         Member member = memberRepository.findByMemberId(memberId).orElseThrow(() -> new IllegalArgumentException("해당 멤버를 찾을 수 없습니다 member="+memberId));
         Todo todo = todoRepository.findByIdAndMember(id, member).orElseThrow(()-> new IllegalArgumentException("해당 할 일을 찾을 수 없습니다 id="+id));
 
-        todo.update(todo.getText(), !todo.isCheck());
+        todo.updateTextAndCheck(todo.getText(), !todo.isCheck());
         todoRepository.save(todo);
     }
     public void deleteTodo(String memberId, long id) throws IllegalArgumentException{

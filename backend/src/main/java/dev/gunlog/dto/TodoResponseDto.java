@@ -5,9 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-/**
- * 할 일 비즈니스 처리 결과 반환을 위한 DTO
- */
 @Getter
 @ToString
 public class TodoResponseDto {

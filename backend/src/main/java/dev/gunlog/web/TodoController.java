@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
-/**
- * 할 일 API 컨트롤러
- */
 @Slf4j
 @RequestMapping("/api/todo")
 @RestController
@@ -31,13 +28,6 @@ public class TodoController {
         String memberId = principal.getName();
         return new ResponseEntity<>(todoService.getTodoList(memberId), HttpStatus.OK);
     }
-
-    /**
-     * 할 일 등록
-     * @author gunkim
-     * @param dto
-     * @return resultMsg
-     */
     @ApiOperation("할 일 등록")
     @ApiImplicitParams({
             @ApiImplicitParam(name="text", value="내용", dataType = "string"),

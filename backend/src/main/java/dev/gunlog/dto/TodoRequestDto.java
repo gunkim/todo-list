@@ -7,9 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-/**
- * 할 일 비즈니스 처리 요청을 위한 DTO
- */
 @Getter
 @ToString
 @NoArgsConstructor
