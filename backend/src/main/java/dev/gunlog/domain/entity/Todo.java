@@ -2,12 +2,10 @@ package dev.gunlog.domain.entity;
 
 import dev.gunlog.domain.entity.common.BaseTimeEntity;
 import lombok.*;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 
-/**
- * 할 일 목록 테이블
- */
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -15,41 +13,35 @@ import javax.persistence.*;
 public class Todo extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "todo_id")
     private long id;
 
-    @Column(nullable = false)
+    @NotNull
+    @Column(name = "todo_text")
     private String text;
 
-    @Column(nullable = false)
+    @NotNull
+    @Column(name = "todo_check")
     private boolean isCheck;
 
+    @NotNull
     @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @Builder
-    public Todo(long id, String text, boolean isCheck, Member member){
+    public Todo(long id, @NotNull String text, boolean isCheck, @NotNull Member member) {
         this.id = id;
         this.text = text;
         this.isCheck = isCheck;
         this.member = member;
     }
-
-    /**
-     * 내용 업데이트를 위한 메소드
-     * @param text
-     */
-    public void update(String text){
+    public void updateText(String text){
         this.text = text;
     }
 
-    /**
-     * 내용 및 check 수정을 위한 메소드
-     * @param text
-     * @param isCheck
-     */
-    public void update(String text, boolean isCheck){
-        this.update(text);
+    public void updateTextAndCheck(String text, boolean isCheck){
+        this.updateText(text);
         this.isCheck = isCheck;
     }
 }
