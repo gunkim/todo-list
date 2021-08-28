@@ -1,7 +1,7 @@
-package dev.gunlog.config.security.filter;
+package dev.gunlog.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.gunlog.config.security.model.LoginDto;
+import dev.gunlog.security.model.LoginDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

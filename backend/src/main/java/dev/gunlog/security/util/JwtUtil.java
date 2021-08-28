@@ -1,6 +1,6 @@
-package dev.gunlog.config.security.util;
+package dev.gunlog.security.util;
 
-import dev.gunlog.config.security.exception.JwtExpTokenException;
+import dev.gunlog.security.exception.JwtExpTokenException;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;

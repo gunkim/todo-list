@@ -19,19 +19,11 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
     @Bean
-    public CommandLineRunner runner(MemberRepository memberRepository, PasswordEncoder passwordEncoder) throws SQLException {
+    public CommandLineRunner runner(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
         return (args) -> {
             memberRepository.save(
                     Member.builder()
                             .memberId("gunkim")
-                            .password(passwordEncoder.encode("test"))
-                            .name("gunkim")
-                            .role(Role.USER)
-                            .build()
-            );
-            memberRepository.save(
-                    Member.builder()
-                            .memberId("test")
                             .password(passwordEncoder.encode("test"))
                             .name("gunkim")
                             .role(Role.USER)

@@ -1,4 +1,4 @@
-package dev.gunlog.config.security.provider;
+package dev.gunlog.security.provider;
 
 import dev.gunlog.dto.MemberResponseDto;
 import dev.gunlog.service.MemberService;

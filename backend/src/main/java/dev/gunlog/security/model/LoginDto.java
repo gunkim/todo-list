@@ -1,4 +1,4 @@
-package dev.gunlog.config.security.model;
+package dev.gunlog.security.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

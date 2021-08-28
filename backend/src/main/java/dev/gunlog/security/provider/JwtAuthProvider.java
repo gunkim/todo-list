@@ -1,6 +1,6 @@
-package dev.gunlog.config.security.provider;
+package dev.gunlog.security.provider;
 
-import dev.gunlog.config.security.model.JwtAuthToken;
+import dev.gunlog.security.model.JwtAuthToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import lombok.extern.slf4j.Slf4j;

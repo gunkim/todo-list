@@ -1,8 +1,8 @@
-package dev.gunlog.config.security.handler;
+package dev.gunlog.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.gunlog.config.security.exception.AuthMethodNotSupportedException;
-import dev.gunlog.config.security.exception.JwtExpTokenException;
+import dev.gunlog.security.exception.AuthMethodNotSupportedException;
+import dev.gunlog.security.exception.JwtExpTokenException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
