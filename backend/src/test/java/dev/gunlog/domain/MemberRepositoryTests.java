@@ -1,29 +1,23 @@
-package dev.gun.domain;
+package dev.gunlog.domain;
 
 import dev.gunlog.domain.entity.Member;
+import dev.gunlog.domain.enums.Role;
 import dev.gunlog.domain.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
+@DataJpaTest
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
 public class MemberRepositoryTests {
     @Autowired
     private MemberRepository memberRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @BeforeEach
     public void before(){
@@ -36,12 +30,16 @@ public class MemberRepositoryTests {
         memberRepository.save(
                 Member.builder()
                         .memberId("gunkim")
-                        .password(passwordEncoder.encode("test"))
+                        .name("test user")
+                        .password("test")
+                        .role(Role.USER)
                         .build()
         );
 
         Member member = memberRepository.findAll().get(0);
-        assertThat(member.getMemberId(), is(equalTo("gunkim")));
-        assertTrue(passwordEncoder.matches("test", member.getPassword()));
+        assertThat(member.getMemberId()).isEqualTo("gunkim");
+        assertThat(member.getPassword()).isEqualTo("test");
+        assertThat(member.getName()).isEqualTo("test user");
+        assertThat(member.getRole()).isEqualTo(Role.USER);
     }
 }
