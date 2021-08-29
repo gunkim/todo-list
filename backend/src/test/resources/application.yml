@@ -1,5 +1,0 @@
-jwt:
-  token:
-    issuer: "gunkim"
-    expTime: 1800000
-    secretKey: "This is My Secret Key"
