@@ -30,12 +30,12 @@ public class TodoService {
 
         todoRepository.save(dto.toEntity(optMember));
     }
+    @Transactional
     public void setReverseCheckTodo(String memberId, long id) throws IllegalArgumentException{
         Member member = memberRepository.findByMemberId(memberId).orElseThrow(() -> new IllegalArgumentException("해당 멤버를 찾을 수 없습니다 member="+memberId));
         Todo todo = todoRepository.findByIdAndMember(id, member).orElseThrow(()-> new IllegalArgumentException("해당 할 일을 찾을 수 없습니다 id="+id));
 
         todo.updateTextAndCheck(todo.getText(), !todo.isCheck());
-        todoRepository.save(todo);
     }
     public void deleteTodo(String memberId, long id) throws IllegalArgumentException{
         Member member = memberRepository.findByMemberId(memberId).orElseThrow(()-> new IllegalArgumentException("해당 멤버를 찾을 수 없습니다 member="+memberId));
