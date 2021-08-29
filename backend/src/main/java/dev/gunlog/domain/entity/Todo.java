@@ -25,7 +25,7 @@ public class Todo extends BaseTimeEntity {
     private boolean isCheck;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "member_id")
     private Member member;
 
