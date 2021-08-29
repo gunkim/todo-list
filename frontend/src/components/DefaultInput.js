@@ -22,17 +22,15 @@ const DefaultInput = ({
   ref,
 }) => {
   return (
-    <>
-      <Input
-        name={name}
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        onKeyPress={onKeyPress}
-        ref={ref}
-      />
-    </>
+    <Input
+      name={name}
+      type={type}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      onKeyPress={onKeyPress}
+      ref={ref}
+    />
   );
 };
 
