@@ -6,11 +6,9 @@ import InputFormContainer from "../container/InputFormContainer";
 
 const TodoList = () => {
   return (
-    <>
-      <Template form={<InputFormContainer />} foot={<FootContainer />}>
-        <ListContainer />
-      </Template>
-    </>
+    <Template form={<InputFormContainer />} foot={<FootContainer />}>
+      <ListContainer />
+    </Template>
   );
 };
 
