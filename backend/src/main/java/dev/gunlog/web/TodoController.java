@@ -6,61 +6,69 @@ import dev.gunlog.service.TodoService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
 import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Slf4j
 @RequestMapping("/api/todo")
 @RestController
-@RequiredArgsConstructor
 public class TodoController {
+
     private final TodoService todoService;
+
+    public TodoController(TodoService todoService) {
+        this.todoService = todoService;
+    }
 
     @ApiOperation("할 일 목록 조회")
     @GetMapping("/list")
-    public ResponseEntity<List<TodoResponseDto>> getTodoList(Principal principal) throws IllegalArgumentException{
+    public ResponseEntity<List<TodoResponseDto>> getTodoList(Principal principal) throws IllegalArgumentException {
         String memberId = principal.getName();
         return new ResponseEntity<>(todoService.getTodoList(memberId), HttpStatus.OK);
     }
+
     @ApiOperation("할 일 등록")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name="text", value="내용", dataType = "string"),
-            @ApiImplicitParam(name="isCheck", value="체크여부", dataType = "boolean")
-    })
+    @ApiImplicitParams({@ApiImplicitParam(name = "text", value = "내용", dataType = "string"),
+        @ApiImplicitParam(name = "isCheck", value = "체크여부", dataType = "boolean")})
     @PostMapping("")
-    public ResponseEntity<String> createTodo(@RequestBody TodoRequestDto dto, Principal principal){
+    public ResponseEntity<String> createTodo(@RequestBody TodoRequestDto dto, Principal principal) {
         String memberId = principal.getName();
-        try{
+        try {
             todoService.createTodo(memberId, dto);
-        }catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return new ResponseEntity<>("FAILURE", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
+
     @ApiOperation("할 일 삭제")
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTodo(@PathVariable long id, Principal principal){
+    public ResponseEntity<String> deleteTodo(@PathVariable long id, Principal principal) {
         String memberId = principal.getName();
-        try{
+        try {
             todoService.deleteTodo(memberId, id);
-        }catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return new ResponseEntity<>("FAILURE", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
+
     @ApiOperation("할 일 체크 반전")
     @PutMapping("/{id}")
-    public ResponseEntity<String> setReverseCheckTodo(@PathVariable long id, Principal principal){
+    public ResponseEntity<String> setReverseCheckTodo(@PathVariable long id, Principal principal) {
         String memberId = principal.getName();
-        try{
+        try {
             todoService.setReverseCheckTodo(memberId, id);
-        }catch(Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>("FAILURE", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);

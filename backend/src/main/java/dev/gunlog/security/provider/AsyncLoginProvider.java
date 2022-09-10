@@ -19,11 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
 public class AsyncLoginProvider implements AuthenticationProvider {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
-    @SneakyThrows
+
+    public AsyncLoginProvider(MemberService memberService, PasswordEncoder passwordEncoder) {
+        this.memberService = memberService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
     @Override
     public Authentication authenticate(Authentication auth) throws AuthenticationException {
         String username = (String) auth.getPrincipal();

@@ -1,6 +1,7 @@
 package dev.gunlog.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.gunlog.domain.enums.Role;
 import dev.gunlog.security.filter.AsyncLoginFilter;
 import dev.gunlog.security.filter.JwtAuthFilter;
 import dev.gunlog.security.handler.AsyncLoginSuccessHandler;
@@ -8,8 +9,6 @@ import dev.gunlog.security.handler.CommonFailHandler;
 import dev.gunlog.security.provider.AsyncLoginProvider;
 import dev.gunlog.security.provider.JwtAuthProvider;
 import dev.gunlog.security.util.JwtUtil;
-import dev.gunlog.domain.enums.Role;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,9 +16,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     public static String AUTHENTICATION_HEADER_NAME = "Authorization";
     private static String AUTHENTICATION_LOGIN_URL = "/api/auth/login";
 
@@ -32,21 +31,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AsyncLoginSuccessHandler asyncLoginSuccessHandler;
     private final CommonFailHandler commonFailHandler;
 
+    public SecurityConfig(ObjectMapper objectMapper, JwtUtil jwtUtil, AsyncLoginProvider asyncLoginProvider,
+        JwtAuthProvider jwtAuthProvider, AsyncLoginSuccessHandler asyncLoginSuccessHandler, CommonFailHandler commonFailHandler) {
+        this.objectMapper = objectMapper;
+        this.jwtUtil = jwtUtil;
+        this.asyncLoginProvider = asyncLoginProvider;
+        this.jwtAuthProvider = jwtAuthProvider;
+        this.asyncLoginSuccessHandler = asyncLoginSuccessHandler;
+        this.commonFailHandler = commonFailHandler;
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .exceptionHandling()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/api/todo/**").hasRole(Role.USER.name())
-                .antMatchers("/", "/list").permitAll()
-                .and()
-                .addFilterBefore(getAsyncLoginFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(getJwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.csrf().disable().exceptionHandling().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+            .authorizeRequests().antMatchers("/api/todo/**").hasRole(Role.USER.name()).antMatchers("/", "/list").permitAll().and()
+            .addFilterBefore(getAsyncLoginFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(getJwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
@@ -60,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setAuthenticationManager(this.authenticationManager());
         return filter;
     }
+
     private JwtAuthFilter getJwtAuthFilter() throws Exception {
         JwtAuthFilter filter = new JwtAuthFilter(jwtUtil, commonFailHandler);
         filter.setAuthenticationManager(this.authenticationManager());
