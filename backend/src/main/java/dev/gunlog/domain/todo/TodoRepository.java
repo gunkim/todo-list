@@ -1,12 +1,11 @@
 package dev.gunlog.domain.todo;
 
 import dev.gunlog.domain.member.Member;
-import java.util.List;
 import java.util.Optional;
 
 public interface TodoRepository {
 
-    List<Todo> findAll();
+    Todos findAll();
 
     Optional<Todo> findById(Long id);
 
@@ -14,7 +13,7 @@ public interface TodoRepository {
 
     Todo delete(Todo todo);
 
-    List<Todo> findAllByMember(Member member);
+    Todos findAllByMember(Member member);
 
     Optional<Todo> findByIdAndMember(Long id, Member member);
 }

@@ -1,7 +1,8 @@
-package dev.gunlog.domain.entity;
+package dev.gunlog.data.jpa;
 
-import dev.gunlog.domain.entity.common.BaseTimeEntity;
-import dev.gunlog.domain.enums.Role;
+import dev.gunlog.domain.member.Member;
+import dev.gunlog.domain.member.Role;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,12 +13,12 @@ import javax.persistence.Id;
 import org.jetbrains.annotations.NotNull;
 
 @Entity
-public class Member extends BaseTimeEntity {
+public class MemberEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_no")
-    private long id;
+    private Long id;
 
     @NotNull
     @Column(name = "member_id")
@@ -36,15 +37,21 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    protected Member() {
+    protected MemberEntity() {
     }
 
-    public Member(long id, @NotNull String memberId, @NotNull String password, @NotNull String name, @NotNull Role role) {
+    public MemberEntity(Long id, @NotNull String memberId, @NotNull String password, @NotNull String name,
+        @NotNull Role role, LocalDateTime createdDate, LocalDateTime modifiedDate) {
         this.id = id;
         this.memberId = memberId;
         this.password = password;
         this.name = name;
         this.role = role;
+    }
+
+    public static MemberEntity from(Member member) {
+        return new MemberEntity(member.id(), member.loginId(), member.password(), member.name(), member.role(),
+            member.createdDate(), member.updatedDate());
     }
 
     public long getId() {
@@ -69,5 +76,15 @@ public class Member extends BaseTimeEntity {
     @NotNull
     public Role getRole() {
         return role;
+    }
+
+    public void update(Member member) {
+        this.password = member.password();
+        this.name = member.name();
+        this.role = member.role();
+    }
+
+    public Member toModel() {
+        return new Member(id, memberId, password, name, role, getCreatedDate(), getModifiedDate());
     }
 }

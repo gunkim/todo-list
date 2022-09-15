@@ -1,6 +1,6 @@
-package dev.gunlog.domain.entity;
+package dev.gunlog.data.jpa;
 
-import dev.gunlog.domain.entity.common.BaseTimeEntity;
+import dev.gunlog.domain.todo.Todo;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,12 +12,12 @@ import javax.persistence.ManyToOne;
 import org.jetbrains.annotations.NotNull;
 
 @Entity
-public class Todo extends BaseTimeEntity {
+public class TodoEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "todo_id")
-    private long id;
+    private Long id;
 
     @NotNull
     @Column(name = "todo_text")
@@ -30,16 +30,20 @@ public class Todo extends BaseTimeEntity {
     @NotNull
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private MemberEntity member;
 
-    protected Todo() {
+    protected TodoEntity() {
     }
 
-    public Todo(long id, @NotNull String text, boolean isCheck, @NotNull Member member) {
+    public TodoEntity(Long id, @NotNull String text, boolean isCheck, @NotNull MemberEntity member) {
         this.id = id;
         this.text = text;
         this.isCheck = isCheck;
         this.member = member;
+    }
+
+    public static TodoEntity from(Todo todo) {
+        return new TodoEntity(todo.id(), todo.text(), todo.isCheck(), MemberEntity.from(todo.member()));
     }
 
     public void updateText(String text) {
@@ -65,7 +69,16 @@ public class Todo extends BaseTimeEntity {
     }
 
     @NotNull
-    public Member getMember() {
+    public MemberEntity getMember() {
         return member;
+    }
+
+    public Todo toModel() {
+        return new Todo(id, text, isCheck, member.toModel(), getCreatedDate(), getModifiedDate());
+    }
+
+    public void update(Todo todo) {
+        this.text = todo.text();
+        this.isCheck = todo.isCheck();
     }
 }

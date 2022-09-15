@@ -7,8 +7,8 @@ import dev.gunlog.domain.member.Member;
 import dev.gunlog.domain.member.Role;
 import dev.gunlog.domain.todo.Todo;
 import dev.gunlog.domain.todo.TodoRepository;
+import dev.gunlog.domain.todo.Todos;
 import java.time.LocalDateTime;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,8 +27,8 @@ class FakeTodoRepositoryTests {
 
     @Test
     void 모든_할_일을_조회한다() {
-        List<Todo> todos = sut.findAll();
-        assertThat(todos).hasSize(1);
+        Todos todos = sut.findAll();
+        assertThat(todos.size()).isEqualTo(1);
     }
 
     @Test
@@ -41,11 +41,13 @@ class FakeTodoRepositoryTests {
         Todo todo = sut.delete(this.todo);
         assertThat(todo).isEqualTo(this.todo);
     }
+
     @Test
     void 유저의_할_일_목록을_조회한다() {
-        List<Todo> todos = sut.findAllByMember(member);
-        assertThat(todos).hasSize(1);
+        Todos todos = sut.findAllByMember(member);
+        assertThat(todos.size()).isEqualTo(1);
     }
+
     @Test
     void 유저의_할_일을_조회한다() {
         assertDoesNotThrow(() -> sut.findByIdAndMember(1L, member).get());

@@ -1,4 +1,4 @@
-package dev.gunlog.config;
+package dev.gunlog.application.spring.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

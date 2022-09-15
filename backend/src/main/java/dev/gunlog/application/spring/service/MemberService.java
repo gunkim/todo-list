@@ -1,8 +1,7 @@
-package dev.gunlog.service;
+package dev.gunlog.application.spring.service;
 
-import dev.gunlog.domain.entity.Member;
-import dev.gunlog.domain.repository.MemberRepository;
-import dev.gunlog.dto.MemberResponseDto;
+import dev.gunlog.domain.member.Member;
+import dev.gunlog.domain.member.MemberRepository;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +14,9 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public MemberResponseDto getMember(String memberId) throws UserPrincipalNotFoundException {
-        Member member = memberRepository.findByMemberId(memberId)
+    public Member getMember(String memberId) throws UserPrincipalNotFoundException {
+        Member member = memberRepository.findByLoginId(memberId)
             .orElseThrow(() -> new UserPrincipalNotFoundException("해당 아이디의 회원 정보를 찾을 수 없습니다 : " + memberId));
-        return new MemberResponseDto(member);
+        return member;
     }
 }

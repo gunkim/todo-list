@@ -3,7 +3,7 @@ package dev.gunlog.data.jpa;
 import dev.gunlog.domain.member.Member;
 import dev.gunlog.domain.todo.Todo;
 import dev.gunlog.domain.todo.TodoRepository;
-import java.util.List;
+import dev.gunlog.domain.todo.Todos;
 import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,9 +20,10 @@ public class TodoJpaRepository implements TodoRepository {
     }
 
     @Override
-    public List<Todo> findAll() {
-        return entityManager.createQuery("SELECT t FROM TodoEntity t", TodoEntity.class).getResultList().stream()
-            .map(TodoEntity::toModel).toList();
+    public Todos findAll() {
+        return new Todos(
+            entityManager.createQuery("SELECT t FROM TodoEntity t", TodoEntity.class).getResultList().stream()
+                .map(TodoEntity::toModel).toList());
     }
 
     @Override
@@ -51,8 +52,7 @@ public class TodoJpaRepository implements TodoRepository {
     }
 
     @Override
-    public List<Todo> findAllByMember(Member member) {
-
+    public Todos findAllByMember(Member member) {
         var query = entityManager.createQuery("""
             SELECT t 
             FROM TodoEntity t JOIN MemberEntity m 
@@ -61,7 +61,7 @@ public class TodoJpaRepository implements TodoRepository {
             """, TodoEntity.class);
         query.setParameter(1, member.id());
 
-        return query.getResultList().stream().map(TodoEntity::toModel).toList();
+        return new Todos(query.getResultList().stream().map(TodoEntity::toModel).toList());
     }
 
     @Override

@@ -1,9 +1,11 @@
-package dev.gunlog.security.handler;
+package dev.gunlog.application.spring.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.gunlog.security.exception.AuthMethodNotSupportedException;
-import dev.gunlog.security.exception.JwtExpTokenException;
-import lombok.RequiredArgsConstructor;
+import dev.gunlog.application.spring.security.exception.AuthMethodNotSupportedException;
+import dev.gunlog.application.spring.security.exception.JwtExpTokenException;
+import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -11,16 +13,18 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 @Component
-@RequiredArgsConstructor
 public class CommonFailHandler implements AuthenticationFailureHandler {
+
     private final ObjectMapper objectMapper;
+
+    public CommonFailHandler(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     @Override
-    public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse res, AuthenticationException e) throws IOException {
+    public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse res, AuthenticationException e)
+        throws IOException {
         res.setStatus(HttpStatus.UNAUTHORIZED.value());
         res.setContentType(MediaType.APPLICATION_JSON_VALUE);
         res.setCharacterEncoding("UTF-8");
@@ -30,7 +34,7 @@ public class CommonFailHandler implements AuthenticationFailureHandler {
             msg = "유효하지 않은 자격 증명";
         } else if (e instanceof AuthMethodNotSupportedException) {
             msg = "해당 요청으로 인한 로그인 미지원";
-        } else if(e instanceof JwtExpTokenException){
+        } else if (e instanceof JwtExpTokenException) {
             msg = "JWT 토큰 유효기간 만료";
         }
         objectMapper.writeValue(res.getWriter(), msg);

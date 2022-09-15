@@ -1,9 +1,11 @@
-package dev.gunlog.security.provider;
+package dev.gunlog.application.spring.security.provider;
 
-import dev.gunlog.dto.MemberResponseDto;
-import dev.gunlog.service.MemberService;
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
+import dev.gunlog.application.spring.service.MemberService;
+import dev.gunlog.application.spring.web.dto.MemberResponseDto;
+import dev.gunlog.domain.member.Member;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,12 +16,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-
 @Component
 public class AsyncLoginProvider implements AuthenticationProvider {
+
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
 
@@ -34,19 +33,24 @@ public class AsyncLoginProvider implements AuthenticationProvider {
         String password = (String) auth.getCredentials();
 
         MemberResponseDto dto = null;
-        try{
-            dto = memberService.getMember(username);
-        }catch(UserPrincipalNotFoundException e){
+        try {
+            Member member = memberService.getMember(username);
+            dto = new MemberResponseDto(
+                member.loginId(),
+                member.password(),
+                member.role()
+            );
+        } catch (UserPrincipalNotFoundException e) {
             throw new BadCredentialsException("해당 회원 정보 조회 실패");
         }
 
-        if(!passwordEncoder.matches(password, dto.getPassword())){
+        if (!passwordEncoder.matches(password, dto.password())) {
             throw new BadCredentialsException("비밀번호가 불일치합니다.");
         }
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(dto.getRole().getValue()));
+        authorities.add(new SimpleGrantedAuthority(dto.role().getValue()));
 
-        return new UsernamePasswordAuthenticationToken(dto.getMemberId(), null, authorities);
+        return new UsernamePasswordAuthenticationToken(dto.memberId(), null, authorities);
     }
 
     @Override

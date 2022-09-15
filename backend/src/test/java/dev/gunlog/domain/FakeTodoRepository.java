@@ -3,8 +3,8 @@ package dev.gunlog.domain;
 import dev.gunlog.domain.member.Member;
 import dev.gunlog.domain.todo.Todo;
 import dev.gunlog.domain.todo.TodoRepository;
+import dev.gunlog.domain.todo.Todos;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -13,8 +13,8 @@ public class FakeTodoRepository implements TodoRepository {
     private final Map<Long, Todo> content = new HashMap<>();
 
     @Override
-    public List<Todo> findAll() {
-        return content.values().stream().toList();
+    public Todos findAll() {
+        return new Todos(content.values().stream().toList());
     }
 
     @Override
@@ -33,17 +33,13 @@ public class FakeTodoRepository implements TodoRepository {
     }
 
     @Override
-    public List<Todo> findAllByMember(Member member) {
-        return content.values().stream()
-            .filter(todo -> todo.member().equals(member))
-            .toList();
+    public Todos findAllByMember(Member member) {
+        return new Todos(content.values().stream().filter(todo -> todo.member().equals(member)).toList());
     }
 
     @Override
     public Optional<Todo> findByIdAndMember(Long id, Member member) {
-        return content.values().stream()
-            .filter(todo -> todo.id() == id)
-            .filter(todo -> todo.member().equals(member))
+        return content.values().stream().filter(todo -> todo.id() == id).filter(todo -> todo.member().equals(member))
             .findFirst();
     }
 

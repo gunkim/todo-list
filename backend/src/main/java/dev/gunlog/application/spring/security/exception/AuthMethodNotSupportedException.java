@@ -1,4 +1,4 @@
-package dev.gunlog.security.exception;
+package dev.gunlog.application.spring.security.exception;
 
 import org.springframework.security.core.AuthenticationException;
 

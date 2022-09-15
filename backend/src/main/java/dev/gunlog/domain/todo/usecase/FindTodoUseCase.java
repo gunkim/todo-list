@@ -1,8 +1,8 @@
 package dev.gunlog.domain.todo.usecase;
 
-import dev.gunlog.domain.todo.Todo;
-import java.util.List;
+import dev.gunlog.domain.todo.Todos;
 
 public interface FindTodoUseCase {
-    List<Todo> find(String memberId);
+
+    Todos find(String memberId);
 }

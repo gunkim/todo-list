@@ -1,4 +1,4 @@
-package dev.gunlog.domain.entity.common;
+package dev.gunlog.data.jpa;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;
