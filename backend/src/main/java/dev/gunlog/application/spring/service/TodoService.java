@@ -1,16 +1,16 @@
 package dev.gunlog.application.spring.service;
 
 import dev.gunlog.application.spring.web.dto.TodoRequestDto;
-import dev.gunlog.data.jpa.MemberJpaRepository;
-import dev.gunlog.data.jpa.TodoJpaRepository;
 import dev.gunlog.domain.member.Member;
+import dev.gunlog.domain.member.MemberRepository;
 import dev.gunlog.domain.todo.Todo;
+import dev.gunlog.domain.todo.TodoRepository;
+import dev.gunlog.domain.todo.Todos;
 import dev.gunlog.domain.todo.usecase.CheckTodoUseCase;
 import dev.gunlog.domain.todo.usecase.CreateTodoUseCase;
 import dev.gunlog.domain.todo.usecase.DeleteTodoUseCase;
 import dev.gunlog.domain.todo.usecase.FindTodoUseCase;
 import java.time.LocalDateTime;
-import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,48 +18,49 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TodoService implements CreateTodoUseCase, FindTodoUseCase, CheckTodoUseCase, DeleteTodoUseCase {
 
-    private final TodoJpaRepository todoJpaRepository;
-    private final MemberJpaRepository memberJpaRepository;
+    private final TodoRepository todoRepository;
+    private final MemberRepository memberRepository;
 
-    public TodoService(TodoJpaRepository todoJpaRepository, MemberJpaRepository memberJpaRepository) {
-        this.todoJpaRepository = todoJpaRepository;
-        this.memberJpaRepository = memberJpaRepository;
+    public TodoService(TodoRepository todoRepository, MemberRepository memberRepository) {
+        this.todoRepository = todoRepository;
+        this.memberRepository = memberRepository;
     }
 
     @Override
-    public void create(String memberId, TodoRequestDto dto) {
-        Member member = memberJpaRepository.findByLoginId(memberId)
-            .orElseThrow(() -> new IllegalArgumentException("해당 멤버를 찾을 수 없습니다 member=" + memberId));
-
+    public Long create(String memberId, TodoRequestDto dto) {
+        Member member = findMember(memberId);
         Todo todo = new Todo(null, dto.text(), dto.isCheck(), member, LocalDateTime.now(), null);
-        todoJpaRepository.save(todo);
+        return todoRepository.save(todo).id();
     }
 
     @Override
-    public List<Todo> find(String memberId) {
-        Member member = memberJpaRepository.findByLoginId(memberId)
-            .orElseThrow(() -> new IllegalArgumentException("해당 멤버를 찾을 수 없습니다 member=" + memberId));
-
-        return todoJpaRepository.findAllByMember(member);
+    public Todos find(String memberId) {
+        return todoRepository.findAllByMember(findMember(memberId));
     }
 
     @Override
     public void check(String memberId, Long id) {
-        Member member = memberJpaRepository.findByLoginId(memberId)
-            .orElseThrow(() -> new IllegalArgumentException("해당 멤버를 찾을 수 없습니다 member=" + memberId));
-        Todo todo = todoJpaRepository.findByIdAndMember(id, member)
-            .orElseThrow(() -> new IllegalArgumentException("해당 할 일을 찾을 수 없습니다 id=" + id));
+        Member member = findMember(memberId);
+        Todo todo = findMemberTodo(id, member);
 
-        todo.update(todo.text(), !todo.isCheck());
+        todoRepository.save(todo.update(todo.text(), !todo.isCheck()));
     }
 
     @Override
     public void delete(String memberId, long id) {
-        Member member = memberJpaRepository.findByLoginId(memberId)
-            .orElseThrow(() -> new IllegalArgumentException("해당 멤버를 찾을 수 없습니다 member=" + memberId));
-        Todo todo = todoJpaRepository.findByIdAndMember(id, member)
-            .orElseThrow(() -> new IllegalArgumentException("해당 할 일을 찾을 수 없습니다 id" + id));
+        Member member = findMember(memberId);
+        Todo todo = findMemberTodo(id, member);
 
-        todoJpaRepository.delete(todo);
+        todoRepository.delete(todo);
+    }
+
+    private Member findMember(String memberId) {
+        return memberRepository.findByLoginId(memberId)
+            .orElseThrow(() -> new IllegalArgumentException(String.format("해당 멤버를 찾을 수 없습니다 member_id: %s", memberId)));
+    }
+
+    private Todo findMemberTodo(Long todoId, Member member) {
+        return todoRepository.findByIdAndMember(todoId, member).orElseThrow(() -> new IllegalArgumentException(
+            String.format("해당 할 일을 찾을 수 없습니다 member_id: %s, todo_id: %s", member.id(), todoId)));
     }
 }
