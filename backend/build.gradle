@@ -12,16 +12,14 @@ buildscript {
 }
 plugins {
     id 'java'
-    id 'eclipse'
-    id 'idea'
     id 'org.springframework.boot' version "${springBootVersion}"
-    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.13.RELEASE'
 }
 
 group 'dev.gunlog'
 version '1.1'
 
-sourceCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
@@ -40,6 +38,4 @@ dependencies {
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
-    compileOnly group: 'org.projectlombok', name: 'lombok'
-    annotationProcessor group: 'org.projectlombok', name: 'lombok'
 }
