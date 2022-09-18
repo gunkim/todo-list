@@ -38,8 +38,10 @@ class FakeTodoRepositoryTests {
 
     @Test
     void 할_일을_삭제한다() {
-        Todo todo = sut.delete(this.todo);
-        assertThat(todo).isEqualTo(this.todo);
+        sut.delete(this.todo);
+
+        var result = sut.findById(this.todo.id());
+        assertThat(result.isEmpty()).isTrue();
     }
 
     @Test

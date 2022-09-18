@@ -11,7 +11,7 @@ public interface TodoRepository {
 
     Todo save(Todo todo);
 
-    Todo delete(Todo todo);
+    void delete(Todo todo);
 
     Todos findAllByMember(Member member);
 

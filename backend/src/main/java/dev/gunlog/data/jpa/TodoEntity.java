@@ -55,7 +55,7 @@ public class TodoEntity extends BaseTimeEntity {
         this.isCheck = isCheck;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

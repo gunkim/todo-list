@@ -24,12 +24,14 @@ public class FakeTodoRepository implements TodoRepository {
 
     @Override
     public Todo save(Todo todo) {
-        return content.put(generateId(todo), todo);
+        return Optional.ofNullable(todo)
+            .map(t -> content.put(generateId(t), t))
+            .orElse(todo);
     }
 
     @Override
-    public Todo delete(Todo todo) {
-        return content.remove(todo);
+    public void delete(Todo todo) {
+        content.remove(todo.id());
     }
 
     @Override

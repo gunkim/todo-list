@@ -22,7 +22,7 @@ public class MemberEntity extends BaseTimeEntity {
 
     @NotNull
     @Column(name = "member_id")
-    private String memberId;
+    private String loginId;
 
     @NotNull
     @Column(name = "member_password")
@@ -40,10 +40,10 @@ public class MemberEntity extends BaseTimeEntity {
     protected MemberEntity() {
     }
 
-    public MemberEntity(Long id, @NotNull String memberId, @NotNull String password, @NotNull String name,
+    public MemberEntity(Long id, @NotNull String loginId, @NotNull String password, @NotNull String name,
         @NotNull Role role, LocalDateTime createdDate, LocalDateTime modifiedDate) {
         this.id = id;
-        this.memberId = memberId;
+        this.loginId = loginId;
         this.password = password;
         this.name = name;
         this.role = role;
@@ -54,13 +54,13 @@ public class MemberEntity extends BaseTimeEntity {
             member.createdDate(), member.updatedDate());
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
     @NotNull
-    public String getMemberId() {
-        return memberId;
+    public String getLoginId() {
+        return loginId;
     }
 
     @NotNull
@@ -85,6 +85,6 @@ public class MemberEntity extends BaseTimeEntity {
     }
 
     public Member toModel() {
-        return new Member(id, memberId, password, name, role, getCreatedDate(), getModifiedDate());
+        return new Member(id, loginId, password, name, role, getCreatedDate(), getModifiedDate());
     }
 }
