@@ -2,8 +2,8 @@
 
 ## 개발 환경
 
-> Java : 11  
-> Gradle : 6.4.1  
+> Java : 17  
+> Gradle : 7.2  
 > Spring Boot : 2.5.0
 
 ## 구현 기능
