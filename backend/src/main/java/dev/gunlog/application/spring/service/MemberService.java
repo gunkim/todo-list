@@ -2,11 +2,13 @@ package dev.gunlog.application.spring.service;
 
 import dev.gunlog.domain.member.Member;
 import dev.gunlog.domain.member.MemberRepository;
+import dev.gunlog.domain.member.usecase.FindMemberUseCase;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class MemberService {
+public class MemberService implements FindMemberUseCase {
 
     private final MemberRepository memberRepository;
 
@@ -14,9 +16,10 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public Member getMember(String memberId) throws UserPrincipalNotFoundException {
-        Member member = memberRepository.findByLoginId(memberId)
-            .orElseThrow(() -> new UserPrincipalNotFoundException("해당 아이디의 회원 정보를 찾을 수 없습니다 : " + memberId));
-        return member;
+    @Override
+    @Transactional(readOnly = true)
+    public Member findLoginId(String loginId) throws UserPrincipalNotFoundException {
+        return memberRepository.findByLoginId(loginId)
+            .orElseThrow(() -> new UserPrincipalNotFoundException(String.format("해당 아이디의 회원 정보를 찾을 수 없습니다. (member_id : %s)", loginId)));
     }
 }
