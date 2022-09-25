@@ -1,7 +1,7 @@
-package dev.gunlog.application.spring.security.filter;
+package dev.gunlog.application.spring.auth.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.gunlog.application.spring.security.model.LoginDto;
+import dev.gunlog.application.spring.auth.model.LoginDto;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

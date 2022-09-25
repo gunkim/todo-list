@@ -1,6 +1,6 @@
-package dev.gunlog.application.spring.security.provider;
+package dev.gunlog.application.spring.auth.provider;
 
-import dev.gunlog.application.spring.security.model.JwtAuthToken;
+import dev.gunlog.application.spring.auth.model.JwtAuthToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import java.util.List;

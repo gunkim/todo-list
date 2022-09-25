@@ -1,4 +1,4 @@
-package dev.gunlog.application.spring.service;
+package dev.gunlog.application.spring.member.service;
 
 import dev.gunlog.domain.member.Member;
 import dev.gunlog.domain.member.MemberRepository;

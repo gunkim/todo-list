@@ -1,7 +1,7 @@
-package dev.gunlog.application.spring.security.handler;
+package dev.gunlog.application.spring.auth.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.gunlog.application.spring.security.util.JwtUtil;
+import dev.gunlog.application.spring.auth.util.JwtUtil;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;

@@ -10,7 +10,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import org.jetbrains.annotations.NotNull;
 
 @Entity
 public class MemberEntity extends BaseTimeEntity {
@@ -20,19 +19,15 @@ public class MemberEntity extends BaseTimeEntity {
     @Column(name = "member_no")
     private Long id;
 
-    @NotNull
     @Column(name = "member_id")
     private String loginId;
 
-    @NotNull
     @Column(name = "member_password")
     private String password;
 
-    @NotNull
     @Column(name = "member_name")
     private String name;
 
-    @NotNull
     @Column(name = "member_role")
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -40,8 +35,8 @@ public class MemberEntity extends BaseTimeEntity {
     protected MemberEntity() {
     }
 
-    public MemberEntity(Long id, @NotNull String loginId, @NotNull String password, @NotNull String name,
-        @NotNull Role role, LocalDateTime createdDate, LocalDateTime modifiedDate) {
+    public MemberEntity(Long id, String loginId, String password, String name, Role role, LocalDateTime createdDate,
+        LocalDateTime modifiedDate) {
         this.id = id;
         this.loginId = loginId;
         this.password = password;
@@ -58,22 +53,18 @@ public class MemberEntity extends BaseTimeEntity {
         return id;
     }
 
-    @NotNull
     public String getLoginId() {
         return loginId;
     }
 
-    @NotNull
     public String getPassword() {
         return password;
     }
 
-    @NotNull
     public String getName() {
         return name;
     }
 
-    @NotNull
     public Role getRole() {
         return role;
     }

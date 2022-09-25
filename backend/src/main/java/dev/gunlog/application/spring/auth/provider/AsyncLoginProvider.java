@@ -1,7 +1,7 @@
-package dev.gunlog.application.spring.security.provider;
+package dev.gunlog.application.spring.auth.provider;
 
-import dev.gunlog.application.spring.service.MemberService;
-import dev.gunlog.application.spring.web.dto.MemberResponseDto;
+import dev.gunlog.application.spring.member.service.MemberService;
+import dev.gunlog.application.spring.todo.web.response.MemberResponse;
 import dev.gunlog.domain.member.Member;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.ArrayList;
@@ -32,10 +32,10 @@ public class AsyncLoginProvider implements AuthenticationProvider {
         String username = (String) auth.getPrincipal();
         String password = (String) auth.getCredentials();
 
-        MemberResponseDto dto = null;
+        MemberResponse dto = null;
         try {
-            Member member = memberService.getMember(username);
-            dto = new MemberResponseDto(
+            Member member = memberService.findLoginId(username);
+            dto = new MemberResponse(
                 member.loginId(),
                 member.password(),
                 member.role()

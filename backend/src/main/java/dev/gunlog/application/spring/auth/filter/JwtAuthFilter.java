@@ -1,7 +1,7 @@
-package dev.gunlog.application.spring.security.filter;
+package dev.gunlog.application.spring.auth.filter;
 
-import dev.gunlog.application.spring.security.util.JwtUtil;
-import dev.gunlog.application.spring.security.model.JwtAuthToken;
+import dev.gunlog.application.spring.auth.util.JwtUtil;
+import dev.gunlog.application.spring.auth.model.JwtAuthToken;
 import dev.gunlog.application.spring.config.SecurityConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

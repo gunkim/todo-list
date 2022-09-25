@@ -1,4 +1,4 @@
-package dev.gunlog.application.spring.security.model;
+package dev.gunlog.application.spring.auth.model;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

@@ -1,6 +1,5 @@
-package dev.gunlog.application.spring.service;
+package dev.gunlog.application.spring.todo.service;
 
-import dev.gunlog.application.spring.web.dto.TodoRequestDto;
 import dev.gunlog.domain.member.Member;
 import dev.gunlog.domain.member.MemberRepository;
 import dev.gunlog.domain.todo.Todo;
@@ -27,9 +26,9 @@ public class TodoService implements CreateTodoUseCase, FindTodoUseCase, CheckTod
     }
 
     @Override
-    public Long create(String memberId, TodoRequestDto dto) {
+    public Long create(String memberId, String text, boolean isCheck) {
         Member member = findMember(memberId);
-        Todo todo = new Todo(null, dto.text(), dto.isCheck(), member, LocalDateTime.now(), null);
+        Todo todo = new Todo(null, text, isCheck, member, LocalDateTime.now(), null);
         return todoRepository.save(todo).id();
     }
 

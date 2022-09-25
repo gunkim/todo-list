@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import org.jetbrains.annotations.NotNull;
 
 @Entity
 public class TodoEntity extends BaseTimeEntity {
@@ -19,15 +18,12 @@ public class TodoEntity extends BaseTimeEntity {
     @Column(name = "todo_id")
     private Long id;
 
-    @NotNull
     @Column(name = "todo_text")
     private String text;
 
-    @NotNull
     @Column(name = "todo_check")
     private boolean isCheck;
 
-    @NotNull
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "member_id")
     private MemberEntity member;
@@ -35,7 +31,7 @@ public class TodoEntity extends BaseTimeEntity {
     protected TodoEntity() {
     }
 
-    public TodoEntity(Long id, @NotNull String text, boolean isCheck, @NotNull MemberEntity member) {
+    public TodoEntity(Long id, String text, boolean isCheck, MemberEntity member) {
         this.id = id;
         this.text = text;
         this.isCheck = isCheck;
@@ -59,7 +55,6 @@ public class TodoEntity extends BaseTimeEntity {
         return id;
     }
 
-    @NotNull
     public String getText() {
         return text;
     }
@@ -68,7 +63,6 @@ public class TodoEntity extends BaseTimeEntity {
         return isCheck;
     }
 
-    @NotNull
     public MemberEntity getMember() {
         return member;
     }
