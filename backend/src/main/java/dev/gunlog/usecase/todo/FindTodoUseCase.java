@@ -1,4 +1,4 @@
-package dev.gunlog.domain.todo.usecase;
+package dev.gunlog.usecase.todo;
 
 import dev.gunlog.domain.todo.Todos;
 

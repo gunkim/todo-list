@@ -2,7 +2,7 @@ package dev.gunlog.application.spring.member.service;
 
 import dev.gunlog.domain.member.Member;
 import dev.gunlog.domain.member.MemberRepository;
-import dev.gunlog.domain.member.usecase.FindMemberUseCase;
+import dev.gunlog.usecase.member.FindMemberUseCase;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

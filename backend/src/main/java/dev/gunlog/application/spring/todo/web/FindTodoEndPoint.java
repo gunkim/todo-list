@@ -1,7 +1,7 @@
 package dev.gunlog.application.spring.todo.web;
 
 import dev.gunlog.domain.todo.Todo;
-import dev.gunlog.domain.todo.usecase.FindTodoUseCase;
+import dev.gunlog.usecase.todo.FindTodoUseCase;
 import java.security.Principal;
 import java.util.List;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

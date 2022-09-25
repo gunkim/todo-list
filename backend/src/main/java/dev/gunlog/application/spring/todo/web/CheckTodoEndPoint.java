@@ -1,6 +1,6 @@
 package dev.gunlog.application.spring.todo.web;
 
-import dev.gunlog.domain.todo.usecase.CheckTodoUseCase;
+import dev.gunlog.usecase.todo.CheckTodoUseCase;
 import io.swagger.annotations.ApiOperation;
 import java.security.Principal;
 import org.springframework.web.bind.annotation.PathVariable;

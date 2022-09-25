@@ -1,6 +1,6 @@
 package dev.gunlog.application.spring.todo.web;
 
-import dev.gunlog.domain.todo.usecase.CreateTodoUseCase;
+import dev.gunlog.usecase.todo.CreateTodoUseCase;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
