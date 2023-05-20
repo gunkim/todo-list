@@ -9,31 +9,31 @@ import org.springframework.stereotype.Component;
 @Component
 public class MemberRepositoryImpl implements MemberRepository {
 
-    private final MemberDao memberDao;
+    private final MemberJpaRepository memberJpaRepository;
 
-    public MemberRepositoryImpl(MemberDao memberDao) {
-        this.memberDao = memberDao;
+    public MemberRepositoryImpl(MemberJpaRepository memberJpaRepository) {
+        this.memberJpaRepository = memberJpaRepository;
     }
 
     @Override
     public List<Member> findAll() {
-        return memberDao.findAll().stream()
+        return memberJpaRepository.findAll().stream()
             .map(MemberEntity::toModel)
             .toList();
     }
 
     @Override
     public Optional<Member> findById(Long id) {
-        return memberDao.findById(id).map(MemberEntity::toModel);
+        return memberJpaRepository.findById(id).map(MemberEntity::toModel);
     }
 
     @Override
     public Member save(Member member) {
-        return memberDao.save(MemberEntity.from(member)).toModel();
+        return memberJpaRepository.save(MemberEntity.from(member)).toModel();
     }
 
     @Override
     public Optional<Member> findByLoginId(String loginId) {
-        return memberDao.findByLoginId(loginId).map(MemberEntity::toModel);
+        return memberJpaRepository.findByLoginId(loginId).map(MemberEntity::toModel);
     }
 }
