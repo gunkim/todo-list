@@ -1,4 +1,4 @@
-package dev.gunlog.data.jpa;
+package dev.gunlog.data;
 
 import dev.gunlog.domain.todo.Todo;
 import javax.persistence.CascadeType;

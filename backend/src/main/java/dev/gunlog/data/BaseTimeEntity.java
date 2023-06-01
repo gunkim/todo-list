@@ -1,4 +1,4 @@
-package dev.gunlog.data.jpa;
+package dev.gunlog.data;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;

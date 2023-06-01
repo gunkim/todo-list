@@ -1,4 +1,4 @@
-package dev.gunlog.data.jpa;
+package dev.gunlog.data;
 
 import java.util.List;
 import java.util.Optional;
