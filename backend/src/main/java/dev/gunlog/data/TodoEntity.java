@@ -46,11 +46,6 @@ public class TodoEntity extends BaseTimeEntity {
         this.text = text;
     }
 
-    public void updateTextAndCheck(String text, boolean isCheck) {
-        this.updateText(text);
-        this.isCheck = isCheck;
-    }
-
     public Long getId() {
         return id;
     }
@@ -69,10 +64,5 @@ public class TodoEntity extends BaseTimeEntity {
 
     public Todo toModel() {
         return new Todo(id, text, isCheck, member.toModel(), getCreatedDate(), getModifiedDate());
-    }
-
-    public void update(Todo todo) {
-        this.text = todo.text();
-        this.isCheck = todo.isCheck();
     }
 }
